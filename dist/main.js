@@ -1,1 +1,116 @@
-(()=>{"use strict";var t=function(){function t(t){this.context=t,this.program=t.createProgram()}return t.prototype.attachShaderFromString=function(e,r){var n;switch(r){case t.shaderTypes.VERTEX:n=this.context.VERTEX_SHADER;break;case t.shaderTypes.FRAGMENT:n=this.context.FRAGMENT_SHADER;break;default:throw"Cant implement shadertype: ".concat(r," in func attachShaderFromString!")}var o=this.context.createShader(n);if(this.context.shaderSource(o,e),this.context.compileShader(o),!this.context.getShaderParameter(o,this.context.COMPILE_STATUS)){var i=this.context.getShaderInfoLog(o);throw"Could not compile shader ".concat(r,". \n\n").concat(i)}this.context.attachShader(this.program,o)},t.prototype.useProgram=function(){if(this.context.linkProgram(this.program),!this.context.getProgramParameter(this.program,this.context.LINK_STATUS)){var t=this.context.getProgramInfoLog(this.program);throw"Could not compile WebGL program. \n\n".concat(t)}this.context.useProgram(this.program)},t.prototype.getAttributeLocation=function(t){return this.useProgram(),this.context.getAttribLocation(this.program,t)},t}();!function(t){var e;(e=t.shaderTypes||(t.shaderTypes={}))[e.VERTEX=0]="VERTEX",e[e.FRAGMENT=1]="FRAGMENT"}(t||(t={}));var e=function(){function e(t){this.canvas=t,this.context=t.getContext("experimental-webgl"),this.shaderProgramHelper=null}return e.prototype.makeSeededProgramWrapper=function(){return new t(this.context)},e.prototype.attachProgramWrapper=function(t){this.shaderProgramHelper=t},e.prototype.buildAndPushArrayBuffer=function(t){var e=this.context.createBuffer();return this.context.bindBuffer(this.context.ARRAY_BUFFER,e),this.context.bufferData(this.context.ARRAY_BUFFER,t,this.context.STATIC_DRAW),this.context.bindBuffer(this.context.ARRAY_BUFFER,null),e},e.prototype.buildAndPushElementArrayBuffer=function(t){var e=this.context.createBuffer();return this.context.bindBuffer(this.context.ELEMENT_ARRAY_BUFFER,e),this.context.bufferData(this.context.ELEMENT_ARRAY_BUFFER,t,this.context.STATIC_DRAW),this.context.bindBuffer(this.context.ELEMENT_ARRAY_BUFFER,null),e},e.prototype.bindAttributeNameToBuffer=function(t,e,r,n,o,i){if(null==this.shaderProgramHelper)throw"No shader program to try and attach attribute ".concat(e," to!");this.context.bindBuffer(this.context.ARRAY_BUFFER,t);var a=this.shaderProgramHelper.getAttributeLocation(e);this.context.vertexAttribPointer(a,r,this.context.FLOAT,n,o,i),this.context.enableVertexAttribArray(a),this.context.bindBuffer(this.context.ARRAY_BUFFER,null)},e.prototype.draw=function(t,e){this.context.bindBuffer(this.context.ELEMENT_ARRAY_BUFFER,t),this.context.clearColor(0,0,0,1),this.context.enable(this.context.DEPTH_TEST),this.context.clear(this.context.COLOR_BUFFER_BIT),this.context.viewport(0,0,this.canvas.width,this.canvas.height),this.context.drawElements(this.context.TRIANGLES,e,this.context.UNSIGNED_SHORT,0)},e}(),r=[0,1,2],n=document.getElementById("screen");n.width=300,n.height=300;var o=new e(n),i=o.makeSeededProgramWrapper();i.attachShaderFromString("\n                attribute vec3 vertex_position;\n                attribute vec3 vertex_color;\n\n                varying vec3 vColor;\n            \n                void main() {\n            \n                    gl_Position = vec4(vertex_position, 1.0);\n                    vColor = vertex_color;\n                }\n            ",t.shaderTypes.VERTEX),i.attachShaderFromString("\n            precision highp float;\n            varying vec3 vColor;\n\n            void main() {\n            \n                gl_FragColor = vec4(vColor, 1.0); // return reddish-purple\n            }\n        ",t.shaderTypes.FRAGMENT),o.attachProgramWrapper(i);var a=o.buildAndPushArrayBuffer(new Float32Array([-.5,.5,0,-.5,-.5,0,.5,-.5,0])),h=o.buildAndPushArrayBuffer(new Float32Array([1,0,0,0,1,0,0,0,1])),c=o.buildAndPushElementArrayBuffer(new Uint16Array(r));o.bindAttributeNameToBuffer(a,"vertex_position",3,!1,0,0),o.bindAttributeNameToBuffer(h,"vertex_color",3,!1,0,0),o.draw(c,r.length)})();
+/*
+ * ATTENTION: The "eval" devtool has been used (maybe by default in mode: "development").
+ * This devtool is neither made for production nor for readable output files.
+ * It uses "eval()" calls to create a separate source file in the browser devtools.
+ * If you are trying to read the output file, select a different devtool (https://webpack.js.org/configuration/devtool/)
+ * or disable the default devtool with "devtool: false".
+ * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
+ */
+/******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./src/GLWrapper.ts":
+/*!**************************!*\
+  !*** ./src/GLWrapper.ts ***!
+  \**************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   GL_Wrapper: () => (/* binding */ GL_Wrapper)\n/* harmony export */ });\n/* harmony import */ var _ShaderProgramHelper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ShaderProgramHelper */ \"./src/ShaderProgramHelper.ts\");\n\nvar GL_Wrapper = /** @class */ (function () {\n    function GL_Wrapper(canvas) {\n        this.canvas = canvas;\n        this.context = canvas.getContext('experimental-webgl');\n        this.shaderProgramHelper = null;\n    }\n    /**\n     * makeSeededProgramWrapper\n     * Returns a program wrapper seeded with the context for this GL_Wrapper, but with no shader data. A user should load their shader\n     * code into the the program wrapper and then set then attach it too this class with attachProgramWrapper.\n     * @returns {ShaderProgramHelper} - A program wrapper seeded with the context for this GL_Wrapper, but with no shader data.\n     */\n    GL_Wrapper.prototype.makeSeededProgramWrapper = function () {\n        return new _ShaderProgramHelper__WEBPACK_IMPORTED_MODULE_0__.ShaderProgramHelper(this.context);\n    };\n    /**\n     * attachProgramWrapper\n     * sets a program wrapper to be actually used by this GLWrapper\n     * @param {ShaderProgramHelper} programWrapper - A program wrapper seeded with the context for this GL_Wrapper and with shader data..\n     */\n    GL_Wrapper.prototype.attachProgramWrapper = function (programWrapper) {\n        this.shaderProgramHelper = programWrapper;\n    };\n    /**\n     * buildAndPushArrayBuffer\n     * Creates an Array Buffer and pushes it to the GPU\n     * @param {BufferSource} data - The actual data to buffer over.\n     * @returns {WebGLBuffer}\n     */\n    GL_Wrapper.prototype.buildAndPushArrayBuffer = function (data) {\n        var buffer = this.context.createBuffer();\n        this.context.bindBuffer(this.context.ARRAY_BUFFER, buffer);\n        this.context.bufferData(this.context.ARRAY_BUFFER, data, this.context.STATIC_DRAW);\n        this.context.bindBuffer(this.context.ARRAY_BUFFER, null);\n        return buffer;\n    };\n    /**\n     * buildAndPushElementArrayBuffer\n     * Creates an Element Array Buffer and pushes it to the GPU\n     * @param {BufferSource} data - The actual data to buffer over.\n     * @returns {WebGLBuffer}\n     */\n    GL_Wrapper.prototype.buildAndPushElementArrayBuffer = function (data) {\n        var buffer = this.context.createBuffer();\n        this.context.bindBuffer(this.context.ELEMENT_ARRAY_BUFFER, buffer);\n        this.context.bufferData(this.context.ELEMENT_ARRAY_BUFFER, data, this.context.STATIC_DRAW);\n        this.context.bindBuffer(this.context.ELEMENT_ARRAY_BUFFER, null);\n        return buffer;\n    };\n    /**\n     * bindAttributeNameToBuffer\n     * This binds a buffer to an attribute. It also loads this information about how to read the buffer into the attribute.\n     * @param {WebGLBuffer} buffer - Reference to the buffer containing the attribute data.\n     * @param {string} attributeName - The string name of the attribute you are binding\n     * @param {number} amntPerVertex - The amount of values in this buffer to read for one instance of the attribute. floats or vectors?????\n     * @param {boolean} normalize - Does the data need to be normalized.\n     * @param {number} stride - The stride to jump per attribute??? is that not number??\n     * @param {number} offset - The offset to jump from the beginning of the buffer\n     */\n    GL_Wrapper.prototype.bindAttributeNameToBuffer = function (buffer, attributeName, amntPerVertex, normalize, stride, offset) {\n        if (this.shaderProgramHelper == null) {\n            throw \"No shader program to try and attach attribute \".concat(attributeName, \" to!\");\n        }\n        this.context.bindBuffer(this.context.ARRAY_BUFFER, buffer);\n        var loc = this.shaderProgramHelper.getAttributeLocation(attributeName);\n        this.context.vertexAttribPointer(loc, amntPerVertex, this.context.FLOAT, normalize, stride, offset);\n        this.context.enableVertexAttribArray(loc);\n        this.context.bindBuffer(this.context.ARRAY_BUFFER, null);\n    };\n    GL_Wrapper.prototype.draw = function (indexBuffer, indexLength) {\n        this.context.bindBuffer(this.context.ELEMENT_ARRAY_BUFFER, indexBuffer);\n        this.context.clearColor(0, 0, 0, 1.0);\n        this.context.enable(this.context.DEPTH_TEST);\n        this.context.clear(this.context.COLOR_BUFFER_BIT);\n        this.context.viewport(0, 0, this.canvas.width, this.canvas.height);\n        this.context.drawElements(this.context.TRIANGLES, indexLength, this.context.UNSIGNED_SHORT, 0);\n    };\n    return GL_Wrapper;\n}());\n\n\n\n//# sourceURL=webpack://my-webpack-project/./src/GLWrapper.ts?");
+
+/***/ }),
+
+/***/ "./src/ShaderLibrary.ts":
+/*!******************************!*\
+  !*** ./src/ShaderLibrary.ts ***!
+  \******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   SHADER_LIB: () => (/* binding */ SHADER_LIB)\n/* harmony export */ });\nvar SHADER_LIB = new Map([\n    [\"v_SafeSingleTri\", \"attribute vec3 vertex_position;\\nattribute vec3 vertex_color;\\nvarying vec3 vColor;\\nvoid main() {\\ngl_Position = vec4(vertex_position, 1.0);\\nvColor = vertex_color;\\n}\\n\"],\n    [\"f_SafeSingleTriWColor\", \"precision highp float;\\nvarying vec3 vColor;\\nvoid main() {\\ngl_FragColor = vec4(vColor, 1.0);\\n}\\n\"]\n]);\n\n\n\n//# sourceURL=webpack://my-webpack-project/./src/ShaderLibrary.ts?");
+
+/***/ }),
+
+/***/ "./src/ShaderProgramHelper.ts":
+/*!************************************!*\
+  !*** ./src/ShaderProgramHelper.ts ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   ShaderProgramHelper: () => (/* binding */ ShaderProgramHelper)\n/* harmony export */ });\n/* harmony import */ var _ShaderLibrary__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ShaderLibrary */ \"./src/ShaderLibrary.ts\");\n\nvar ShaderProgramHelper = /** @class */ (function () {\n    function ShaderProgramHelper(context) {\n        this.context = context;\n        this.program = context.createProgram();\n    }\n    /**\n     * attachShaderFromShaderLib\n     * Loads a shader from shader library.\n     * @param {string} shaderSourceName - The name of the shader in the library.\n     * @param {ShaderProgramHelper.shaderTypes} shadertype -  The type of shader the code is for.\n     */\n    ShaderProgramHelper.prototype.attachShaderFromShaderLib = function (shaderSourceName, shadertype) {\n        if (!_ShaderLibrary__WEBPACK_IMPORTED_MODULE_0__.SHADER_LIB.has(shaderSourceName)) {\n            throw \"Cannot find shader: \".concat(shaderSourceName, \" in shader library!\");\n        }\n        ;\n        this.attachShaderFromString(_ShaderLibrary__WEBPACK_IMPORTED_MODULE_0__.SHADER_LIB.get(shaderSourceName), shadertype);\n    };\n    /**\n     * attachShaderFromString\n     * Loads a shader from a string.\n     * @param {string} shaderSourceStr - The string of shader source code.\n     * @param {ShaderProgramHelper.shaderTypes} shadertype -  The type of shader the code is for.\n     */\n    ShaderProgramHelper.prototype.attachShaderFromString = function (shaderSourceStr, shadertype) {\n        //Map our enums to OpenGL enums.\n        var glShaderTypeID;\n        switch (shadertype) {\n            case ShaderProgramHelper.shaderTypes.VERTEX: {\n                glShaderTypeID = this.context.VERTEX_SHADER;\n                break;\n            }\n            case ShaderProgramHelper.shaderTypes.FRAGMENT: {\n                glShaderTypeID = this.context.FRAGMENT_SHADER;\n                break;\n            }\n            default: {\n                throw \"Cant implement shadertype: \".concat(shadertype, \" in func attachShaderFromString!\");\n            }\n        }\n        //Make the shader and compile it\n        var shaderObj = this.context.createShader(glShaderTypeID);\n        this.context.shaderSource(shaderObj, shaderSourceStr);\n        this.context.compileShader(shaderObj);\n        if (!this.context.getShaderParameter(shaderObj, this.context.COMPILE_STATUS)) {\n            var info = this.context.getShaderInfoLog(shaderObj);\n            throw \"Could not compile shader \".concat(shadertype, \". \\n\\n\").concat(info);\n        }\n        //Attach the shader to the program\n        this.context.attachShader(this.program, shaderObj);\n    };\n    /**\n     * useProgram\n     * Links, compiles program. Then sets this program to be used for the context it was made with.\n     */\n    ShaderProgramHelper.prototype.useProgram = function () {\n        this.context.linkProgram(this.program);\n        if (!this.context.getProgramParameter(this.program, this.context.LINK_STATUS)) {\n            var info = this.context.getProgramInfoLog(this.program);\n            throw \"Could not compile WebGL program. \\n\\n\".concat(info);\n        }\n        this.context.useProgram(this.program);\n    };\n    /**\n     * getAttributeLocation\n     * Get the location of an attribute in the program by its name.\n     * This will compile link and set the program to be used!\n     * @param {string} name - The text name attribute to find the location of\n     * @returns {number}\n     */\n    ShaderProgramHelper.prototype.getAttributeLocation = function (name) {\n        //TODO::Make it to where we don't have to link and select the program every \n        //time we want to look up and attribute!\n        this.useProgram();\n        return this.context.getAttribLocation(this.program, name);\n    };\n    return ShaderProgramHelper;\n}());\n\n(function (ShaderProgramHelper) {\n    var shaderTypes;\n    (function (shaderTypes) {\n        shaderTypes[shaderTypes[\"VERTEX\"] = 0] = \"VERTEX\";\n        shaderTypes[shaderTypes[\"FRAGMENT\"] = 1] = \"FRAGMENT\";\n    })(shaderTypes = ShaderProgramHelper.shaderTypes || (ShaderProgramHelper.shaderTypes = {}));\n})(ShaderProgramHelper || (ShaderProgramHelper = {}));\n\n\n//# sourceURL=webpack://my-webpack-project/./src/ShaderProgramHelper.ts?");
+
+/***/ }),
+
+/***/ "./src/index.ts":
+/*!**********************!*\
+  !*** ./src/index.ts ***!
+  \**********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _GLWrapper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GLWrapper */ \"./src/GLWrapper.ts\");\n/* harmony import */ var _ShaderProgramHelper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ShaderProgramHelper */ \"./src/ShaderProgramHelper.ts\");\n\n\nvar vertices = [\n    -0.5, 0.5, 0.0,\n    -0.5, -0.5, 0.0,\n    0.5, -0.5, 0.0,\n];\nvar indices = [0, 1, 2];\nvar colors = [\n    1.0, 0.0, 0.0,\n    0.0, 1.0, 0.0,\n    0.0, 0.0, 1.0,\n];\nvar width = 300;\nvar height = 300;\nvar canvas = document.getElementById('screen');\ncanvas.width = width;\ncanvas.height = height;\nvar glw = new _GLWrapper__WEBPACK_IMPORTED_MODULE_0__.GL_Wrapper(canvas);\nvar seededProgram = glw.makeSeededProgramWrapper();\nseededProgram.attachShaderFromShaderLib(\"v_SafeSingleTri\", _ShaderProgramHelper__WEBPACK_IMPORTED_MODULE_1__.ShaderProgramHelper.shaderTypes.VERTEX);\nseededProgram.attachShaderFromShaderLib(\"f_SafeSingleTriWColor\", _ShaderProgramHelper__WEBPACK_IMPORTED_MODULE_1__.ShaderProgramHelper.shaderTypes.FRAGMENT);\nglw.attachProgramWrapper(seededProgram);\nconsole.log('trust');\nvar verticesBuffer = glw.buildAndPushArrayBuffer(new Float32Array(vertices));\nvar colorBuffer = glw.buildAndPushArrayBuffer(new Float32Array(colors));\nvar indicesBuffer = glw.buildAndPushElementArrayBuffer(new Uint16Array(indices));\nglw.bindAttributeNameToBuffer(verticesBuffer, \"vertex_position\", 3, false, 0, 0);\nglw.bindAttributeNameToBuffer(colorBuffer, \"vertex_color\", 3, false, 0, 0);\nglw.draw(indicesBuffer, indices.length);\n\n\n//# sourceURL=webpack://my-webpack-project/./src/index.ts?");
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module can't be inlined because the eval devtool is used.
+/******/ 	var __webpack_exports__ = __webpack_require__("./src/index.ts");
+/******/ 	
+/******/ })()
+;

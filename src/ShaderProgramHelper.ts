@@ -1,4 +1,4 @@
-
+import { SHADER_LIB } from "./ShaderLibrary";
 export class ShaderProgramHelper {
 
     private program: WebGLProgram | null;
@@ -8,6 +8,18 @@ export class ShaderProgramHelper {
         this.context = context
         this.program = context.createProgram();
     }
+
+    /**
+     * attachShaderFromShaderLib
+     * Loads a shader from shader library.
+     * @param {string} shaderSourceName - The name of the shader in the library.
+     * @param {ShaderProgramHelper.shaderTypes} shadertype -  The type of shader the code is for.
+     */
+    public attachShaderFromShaderLib(shaderSourceName: string, shadertype: ShaderProgramHelper.shaderTypes) {
+        if (!SHADER_LIB.has(shaderSourceName)) { throw `Cannot find shader: ${shaderSourceName} in shader library!`};
+        this.attachShaderFromString(SHADER_LIB.get(shaderSourceName), shadertype);
+    }
+
 
     /**
      * attachShaderFromString

@@ -1,30 +1,6 @@
 import { GL_Wrapper } from "./GLWrapper";
 import { ShaderProgramHelper } from "./ShaderProgramHelper";
 
-
-const vertexShaderSource = `
-                attribute vec3 vertex_position;
-                attribute vec3 vertex_color;
-
-                varying vec3 vColor;
-            
-                void main() {
-            
-                    gl_Position = vec4(vertex_position, 1.0);
-                    vColor = vertex_color;
-                }
-            `;
-
-const fragmentShaderSource = `
-            precision highp float;
-            varying vec3 vColor;
-
-            void main() {
-            
-                gl_FragColor = vec4(vColor, 1.0); // return reddish-purple
-            }
-        `;
-
 const vertices = [   
     -0.5, 0.5,  0.0,
     -0.5, -0.5,  0.0,
@@ -47,8 +23,8 @@ canvas.height = height;
 var glw = new GL_Wrapper(canvas);
 
 var seededProgram = glw.makeSeededProgramWrapper();
-seededProgram.attachShaderFromString(vertexShaderSource, ShaderProgramHelper.shaderTypes.VERTEX);
-seededProgram.attachShaderFromString(fragmentShaderSource, ShaderProgramHelper.shaderTypes.FRAGMENT);
+seededProgram.attachShaderFromShaderLib(`v_SafeSingleTri`, ShaderProgramHelper.shaderTypes.VERTEX);
+seededProgram.attachShaderFromShaderLib(`f_SafeSingleTriWColor`, ShaderProgramHelper.shaderTypes.FRAGMENT);
 glw.attachProgramWrapper(seededProgram);
 
 var verticesBuffer = glw.buildAndPushArrayBuffer(new Float32Array(vertices));
