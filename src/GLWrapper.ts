@@ -83,6 +83,39 @@ export class GL_Wrapper {
         this.context.bindBuffer(this.context.ARRAY_BUFFER, null);
     }
 
+    /**
+     * This function binds a matrix to a uniform in the program.
+     * @param matrix The matrix in column major order.
+     * @param size The size of the matrix 1x1 -> 1, 4x4 -> 4.
+     * @param uniformName The name of the uniform to bind this to.
+     */
+    public bindMatrixUniform(matrix: Float32Array, size: number, uniformName: string) {
+        if (this.shaderProgramHelper == null) {
+            throw `No shader program to try and attach uniform ${uniformName} to!`
+        }
+
+        let loc = this.shaderProgramHelper.getUniformLocation(uniformName);
+
+        switch(size) {
+            case 2: {
+                this.context.uniformMatrix2fv(loc, false, matrix);
+                break;
+            }
+            case 3: {
+                this.context.uniformMatrix3fv(loc, false, matrix);
+                break;
+            }
+            case 4: {
+                this.context.uniformMatrix4fv(loc, false, matrix);
+                break;
+            }
+            default: {
+                throw `Matrix size of ${size} has no gl sibling!`;
+                break;
+            }
+        }
+    }
+
     public draw(indexBuffer: WebGLBuffer, indexLength: number) {
         this.context.bindBuffer(this.context.ELEMENT_ARRAY_BUFFER, indexBuffer);
         this.context.clearColor(0, 0, 0, 1.0);
@@ -91,5 +124,9 @@ export class GL_Wrapper {
         this.context.viewport(0, 0, this.canvas.width, this.canvas.height);
         this.context.drawElements(this.context.TRIANGLES, indexLength, this.context.UNSIGNED_SHORT, 0);
 
+    }
+
+    public getError() {
+        return this.context.getError();
     }
 }

@@ -86,6 +86,21 @@ export class ShaderProgramHelper {
         this.useProgram();
         return this.context.getAttribLocation(this.program!, name);
     }
+
+        /**
+     * getAttributeLocation
+     * Get the location of a uniform in the program by its name.
+     * This will compile link and set the program to be used!
+     * @param {string} name - The text name uniform to find the location of
+     * @returns {number}
+     */
+        public getUniformLocation(name: string) {
+
+            //TODO::Make it to where we don't have to link and select the program every 
+            //time we want to look up and uniform!
+            this.useProgram();
+            return this.context.getUniformLocation(this.program!, name);
+        }
 }
 
 export namespace ShaderProgramHelper {
