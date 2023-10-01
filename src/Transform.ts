@@ -14,7 +14,6 @@ export class Transform {
 
     constructor(){
 
-        let Identity = 
         this.TranslationMatrix = Transform.getIdentity();
         this.ScalingMatrix     = Transform.getIdentity();
         this.XRotationMatrix   = Transform.getIdentity();
@@ -114,11 +113,6 @@ export class Transform {
         matrix = Transform.multiply4x4Matrixes(matrix, this.YRotationMatrix); //T_RX_RY
         matrix = Transform.multiply4x4Matrixes(matrix, this.ZRotationMatrix); //T_RX_RY_RZ
         matrix = Transform.multiply4x4Matrixes(matrix, this.ScalingMatrix);   //T_RX_RY_RZ_S
-
-        // matrix = Transform.multiply4x4Matrixes(this.XRotationMatrix, this.YRotationMatrix); //
-        // matrix = Transform.multiply4x4Matrixes(matrix, this.ZRotationMatrix); //
-        // matrix = Transform.multiply4x4Matrixes(matrix, this.ScalingMatrix); //
-        // matrix = Transform.multiply4x4Matrixes(matrix, this.TranslationMatrix);  
 
         let transform = new Float32Array(16);
         for(let r = 0; r < 4; r++) {

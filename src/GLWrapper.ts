@@ -116,11 +116,23 @@ export class GL_Wrapper {
         }
     }
 
-    public draw(indexBuffer: WebGLBuffer, indexLength: number) {
+    public draw(indexBuffer: WebGLBuffer, indexLength: number, mode: GL_Wrapper.drawModes) {
         this.context.bindBuffer(this.context.ELEMENT_ARRAY_BUFFER, indexBuffer);
         this.context.clearColor(0.114, 0.541, 0.522, 1.0);
         this.context.viewport(0, 0, this.canvas.width, this.canvas.height);
-        this.context.drawElements(this.context.TRIANGLES, indexLength, this.context.UNSIGNED_SHORT, 0);
+
+        let drawMode;
+        switch(mode) {
+            case GL_Wrapper.drawModes.LINES: {
+                drawMode = this.context.LINE_LOOP;
+                break;
+            }
+            case GL_Wrapper.drawModes.TRIANGLES: {
+                drawMode = this.context.TRIANGLES;
+                break;
+            }
+        }
+        this.context.drawElements(drawMode, indexLength, this.context.UNSIGNED_SHORT, 0);
 
     }
 
@@ -133,5 +145,12 @@ export class GL_Wrapper {
         if (err > 0) {
             console.error(`GL ERROR! Code: ${err}`)
         }
+    }
+}
+
+export namespace GL_Wrapper {
+    export enum drawModes {
+        LINES,
+        TRIANGLES
     }
 }
