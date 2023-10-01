@@ -1,7 +1,7 @@
 import { Transform } from "./Transform"
 import { Geometry } from "./Geometry";
 import { GL_Wrapper } from "./GLWrapper";
-import { ShaderProgramHelper } from "./ShaderProgramHelper";
+
 
 
 export abstract class Object {
@@ -9,27 +9,16 @@ export abstract class Object {
 
     public transform: Transform;
     public geometry: Geometry;
-    protected programWrapper: ShaderProgramHelper;
 
-    protected progLoaded: boolean;
 
     constructor(glw: GL_Wrapper) {
         this.transform = new Transform();
         this.geometry = new Geometry();
 
         this.GLW = glw;
-        this.programWrapper = glw.makeSeededProgramWrapper();
-        this.progLoaded = false;
-
     }
 
-    public draw(context: GL_Wrapper) {
-
-        if(!this.progLoaded) {
-            console.error("Object received draw call with no program loaded! Aborting.");
-            return;
-        }
-
+    public draw() {
         var verticesBuffer = this.GLW.buildAndPushArrayBuffer(this.geometry.vertexes);
         var colorBuffer = this.GLW.buildAndPushArrayBuffer(this.geometry.colors);
         var indicesBuffer = this.GLW.buildAndPushElementArrayBuffer(this.geometry.indexes);

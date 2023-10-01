@@ -10,6 +10,7 @@ export class GL_Wrapper {
         this.canvas = canvas;  
         this.context = canvas.getContext('webgl2') as WebGL2RenderingContext
         this.shaderProgramHelper = null;
+        this.context.enable(this.context.DEPTH_TEST);
     }
 
     /**
@@ -111,22 +112,26 @@ export class GL_Wrapper {
             }
             default: {
                 throw `Matrix size of ${size} has no gl sibling!`;
-                break;
             }
         }
     }
 
     public draw(indexBuffer: WebGLBuffer, indexLength: number) {
         this.context.bindBuffer(this.context.ELEMENT_ARRAY_BUFFER, indexBuffer);
-        this.context.clearColor(0, 0, 0, 1.0);
-        this.context.enable(this.context.DEPTH_TEST);
-        this.context.clear(this.context.COLOR_BUFFER_BIT);
+        this.context.clearColor(0.114, 0.541, 0.522, 1.0);
         this.context.viewport(0, 0, this.canvas.width, this.canvas.height);
         this.context.drawElements(this.context.TRIANGLES, indexLength, this.context.UNSIGNED_SHORT, 0);
 
     }
 
-    public getError() {
-        return this.context.getError();
+    public clear() {
+        this.context.clear(this.context.COLOR_BUFFER_BIT);
+    }
+
+    public reportError() {
+        let err = this.context.getError();
+        if (err > 0) {
+            console.error(`GL ERROR! Code: ${err}`)
+        }
     }
 }
