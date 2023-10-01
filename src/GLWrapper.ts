@@ -8,7 +8,7 @@ export class GL_Wrapper {
 
     constructor(canvas: HTMLCanvasElement) {
         this.canvas = canvas;  
-        this.context = canvas.getContext('experimental-webgl') as WebGL2RenderingContext
+        this.context = canvas.getContext('webgl2') as WebGL2RenderingContext
         this.shaderProgramHelper = null;
     }
 
