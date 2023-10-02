@@ -20,6 +20,10 @@ export abstract class Object {
         this.GLW = glw;
     }
 
+    /**
+     * draw()
+     * Draws the object to the loaded context.
+     */
     public draw() {
         var verticesBuffer = this.GLW.buildAndPushArrayBuffer(this.geometry.vertexes);
         var colorBuffer = this.GLW.buildAndPushArrayBuffer(this.geometry.colors);

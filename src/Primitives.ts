@@ -3,9 +3,11 @@ import { Object } from "./object";
 import { ShaderProgramHelper } from "./ShaderProgramHelper";
 
 
+/**
+ * A simple plane. Two triangles. Centered around the origin in its object space.
+ */
 export class Plane extends Object {
     
-
     constructor(glw: GL_Wrapper) {
         super(glw);
         this.drawMode = GL_Wrapper.drawModes.TRIANGLES;
@@ -24,8 +26,10 @@ export class Plane extends Object {
     }
 }
 
-
-//https://textbooks.cs.ksu.edu/cis580/13-basic-3d-rendering/04-rendering-a-cube/
+/**
+ * A cube containing 6 sides centered about the origin in its object space.
+ * @source - https://textbooks.cs.ksu.edu/cis580/13-basic-3d-rendering/04-rendering-a-cube/ 
+ */
 export class Cube extends Object {
     constructor(glw: GL_Wrapper) {
         super(glw);
@@ -63,6 +67,9 @@ export class Cube extends Object {
     }
 }
 
+/**
+ * The wireframe of a cube centered around the origin in object space.
+ */
 export class WireCube extends Object {
     constructor(glw: GL_Wrapper) {
         super(glw);
