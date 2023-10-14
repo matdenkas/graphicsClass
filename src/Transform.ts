@@ -50,7 +50,7 @@ export class Transform {
      * @returns {number[]} - The loaded translations [x, y, z]
      */
     public getTranslation() {
-        return [this.TranslationMatrix[0][3], this.TranslationMatrix[1][3], this.TranslationMatrix[0][2]];
+        return [this.TranslationMatrix[0][3], this.TranslationMatrix[1][3], this.TranslationMatrix[2][3]];
     }
 
     /**

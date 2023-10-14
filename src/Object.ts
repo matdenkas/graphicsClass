@@ -12,6 +12,10 @@ export abstract class Object {
     public geometry: Geometry;
     public programShader: ShaderProgramHelper;
 
+    private verticesBuffer: WebGLBuffer;
+    private colorBuffer: WebGLBuffer;
+    private indicesBuffer: WebGLBuffer;
+
     protected drawMode: GL_Wrapper.drawModes;
     constructor(glw: GL_Wrapper) {
         this.transform = new Transform();
@@ -25,17 +29,29 @@ export abstract class Object {
      * Draws the object to the loaded context.
      */
     public draw() {
-        var verticesBuffer = this.GLW.buildAndPushArrayBuffer(this.geometry.vertexes);
-        var colorBuffer = this.GLW.buildAndPushArrayBuffer(this.geometry.colors);
-        var indicesBuffer = this.GLW.buildAndPushElementArrayBuffer(this.geometry.indexes);
+        
+        if (this.geometry.bufferNeeded) {
+            this.buffer();
+            this.geometry.bufferNeeded = false;
+        }
 
         this.GLW.attachProgramWrapper(this.programShader);
 
-        this.GLW.bindAttributeNameToBuffer(verticesBuffer!, "vertex_position", 3, false, 0, 0);
-        this.GLW.bindAttributeNameToBuffer(colorBuffer!, "vertex_color", 3, false, 0, 0);
+        this.GLW.bindAttributeNameToBuffer(this.verticesBuffer!, "vertex_position", 3, false, 0, 0);
+        this.GLW.bindAttributeNameToBuffer(this.colorBuffer!, "vertex_color", 3, false, 0, 0);
 
 
         this.GLW.bindMatrixUniform(this.transform.computeTransformMatrix(), 4, `objectToWorld`);
-        this.GLW.draw(indicesBuffer!, this.geometry.indexes.length, this.drawMode);
+        this.GLW.draw(this.indicesBuffer!, this.geometry.getIndexes().length, this.drawMode);
+    }
+
+    private buffer() {
+        this.GLW.deleteBuffer(this.verticesBuffer);
+        this.GLW.deleteBuffer(this.colorBuffer);
+        this.GLW.deleteBuffer(this.indicesBuffer);
+
+        this.verticesBuffer = this.GLW.buildAndPushArrayBuffer(this.geometry.getVertexes());
+        this.colorBuffer = this.GLW.buildAndPushArrayBuffer(this.geometry.getColors());
+        this.indicesBuffer = this.GLW.buildAndPushElementArrayBuffer(this.geometry.getIndexes());
     }
 }

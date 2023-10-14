@@ -131,6 +131,14 @@ export class GL_Wrapper {
                 drawMode = this.context.TRIANGLES;
                 break;
             }
+            case GL_Wrapper.drawModes.TRIANGLE_STRIP: {
+                drawMode = this.context.TRIANGLE_STRIP;
+                break;
+            }
+            case GL_Wrapper.drawModes.POINTS: {
+                drawMode = this.context.POINTS;
+                break;
+            }
         }
         this.context.drawElements(drawMode, indexLength, this.context.UNSIGNED_SHORT, 0);
 
@@ -146,11 +154,17 @@ export class GL_Wrapper {
             console.error(`GL ERROR! Code: ${err}`)
         }
     }
+
+    public deleteBuffer(buffer: WebGLBuffer) {
+        this.context.deleteBuffer(buffer);
+    }
 }
 
 export namespace GL_Wrapper {
     export enum drawModes {
         LINES,
-        TRIANGLES
+        TRIANGLES,
+        TRIANGLE_STRIP,
+        POINTS
     }
 }
