@@ -79,12 +79,14 @@ body?.addEventListener('keydown', (evt: KeyboardEvent) => {
 
 
 
-// let shape = new Tetrahedron(glw);
-//let shape = new Sphere(glw, 0);
-let shape1 = new Sphere(glw, 6);
+let shape1 = new Icosahedron(glw);
+shape1.transform.setScaling(.5, .5, .5);
+shape1.transform.setTranslation(.5, 0, 0);
 
 let c = new Camera();
-c.setCameraToProjectionMatrix(180, 1, .0001, 100000);
+c.transform.setTranslation(0, 0, 2);
+c.setCameraToProjectionMatrix(60, width/height, 1, 2000);
+console.log('proj:', c.getCameraToProjectionMatrix())
 
 //DrawInterval
 setInterval(() => {
@@ -94,9 +96,27 @@ setInterval(() => {
 
 //Rotate
 let i = 0;
+let shapeRot = 0;
+let shapeScale = 0;
+let delta = .05
 setInterval(() => {
-    shape1.transform.setRotation(i, i, i);
-    i = (i + 1)%360;
+    shape1.transform.setRotation(shapeRot, 0, 0);
+    shape1.transform.setTranslation(0, 0, i);
+
+
+    shape1.transform.setScaling(shapeScale / 2+1, shapeScale / 2 +1, shapeScale / 2 +1)
+    console.log(shapeScale / 2 +.5)
+    if(i > 1) {delta = -.05; }
+    if(i < -1) {delta = .05; }
+    i = i + delta
+    shapeScale = shapeScale + delta;
+    shapeRot = (shapeRot + 1)%360;
+}, 1000/16);
+//Rotate
+let j = 0;
+setInterval(() => {
+    c.transform.setRotation(0, j, 0);
+    j = (j + 1)%360;
 }, 1000/16);
 
 

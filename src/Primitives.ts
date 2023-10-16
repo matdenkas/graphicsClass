@@ -309,7 +309,6 @@ export class Sphere extends Object {
                 geometry[topology[topologyIndex + 2] * 3 + 2],];
             newGeometry = newGeometry.concat(this.Recursive_CreateSphere(vertexA, vertexB, vertexC, level));
         }
-        console.log(newGeometry);
         return newGeometry;
     }
 

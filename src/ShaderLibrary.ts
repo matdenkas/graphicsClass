@@ -13,13 +13,12 @@ let SHADER_LIB = new Map<string, string>([
 
         uniform mat4 objectToWorld;
         uniform mat4 worldToCamera;
-        //uniform mat4 cameraToProjection;
+        uniform mat4 cameraToProjection;
 
         varying vec3 vColor;
 
         void main() {
-            mat4 fullMat = objectToWorld * worldToCamera;
-            vec4 vertex = fullMat * vec4(vertex_position, 1);
+            vec4 vertex =  cameraToProjection * worldToCamera * objectToWorld * vec4(vertex_position, 1);
             gl_Position = vertex;
             vColor = vertex_color;
         }

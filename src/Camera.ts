@@ -23,8 +23,8 @@ export class Camera {
      */
     public setCameraToProjectionMatrix(fov: number, aspectRatio: number, near: number, far: number) {
         let fovRad = fov * Math.PI/180;
-        let f = 1.0/ Math.tan(fovRad / 2);
-        let rangInv = 1 / (near - far);
+        let f = 1.0/ Math.tan(Math.PI * .5 - .5 * fovRad);
+        let rangInv = 1.0 / (near - far);
 
         this.CameraToProjection[0] = f / aspectRatio;
         this.CameraToProjection[5] = f;
