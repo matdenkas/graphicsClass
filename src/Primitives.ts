@@ -268,6 +268,100 @@ export class Icosahedron extends Object {
     }
 }
 
+export class Sphere extends Object {
+    constructor(glw: GL_Wrapper, level: number = 6) {
+        super(glw);
+        this.drawMode = GL_Wrapper.drawModes.TRIANGLES;
+
+        let newGeometry = this.CreateSphere(glw, level);
+
+        let newTopology: number[] = [];
+        for(let i = 0; i < newGeometry.length; i++) {
+            newTopology.push(i);
+        }
+
+        this.geometry.setIndexes(new Uint16Array(newTopology));
+        this.geometry.setVertexes(new Float32Array(newGeometry));
+        this.geometry.setColors(this.geometry.getVertexes().slice());
+
+        this.programShader.attachShaderFromShaderLib(`v_O2W&color`, ShaderProgramHelper.shaderTypes.VERTEX);
+        this.programShader.attachShaderFromShaderLib(`f_SafeSingleTriWColor`, ShaderProgramHelper.shaderTypes.FRAGMENT);
+    }
+
+    private CreateSphere(glw: GL_Wrapper, level: number) {
+        let baseShape = new Tetrahedron(glw)
+        let topology = baseShape.geometry.getIndexes();
+        let geometry = baseShape.geometry.getVertexes();
+
+        let newGeometry: number[] = [];
+        for(let topologyIndex = 0; topologyIndex < topology.length; topologyIndex += 3) {
+            let vertexA = [
+                geometry[topology[topologyIndex + 0] * 3 + 0],
+                geometry[topology[topologyIndex + 0] * 3 + 1],
+                geometry[topology[topologyIndex + 0] * 3 + 2],];
+            let vertexB = [
+                geometry[topology[topologyIndex + 1] * 3 + 0],
+                geometry[topology[topologyIndex + 1] * 3 + 1],
+                geometry[topology[topologyIndex + 1] * 3 + 2],];
+            let vertexC = [
+                geometry[topology[topologyIndex + 2] * 3 + 0],
+                geometry[topology[topologyIndex + 2] * 3 + 1],
+                geometry[topology[topologyIndex + 2] * 3 + 2],];
+            newGeometry = newGeometry.concat(this.Recursive_CreateSphere(vertexA, vertexB, vertexC, level));
+        }
+        console.log(newGeometry);
+        return newGeometry;
+    }
+
+    private Recursive_CreateSphere(a: number[], b: number[], c: number[], level: number): number[] {
+        if (level <= 0) { return a.concat(b.concat(c)) }
+
+        let d, e, f;
+        [d, e, f] = this.CalcNewTri(a, b, c);
+
+        level--;
+        let dfc = this.Recursive_CreateSphere(d, f, c, level);
+        let dae = this.Recursive_CreateSphere(d, a, e, level);
+        let def = this.Recursive_CreateSphere(d, e, f, level);
+        let ebf = this.Recursive_CreateSphere(e, b, f, level);
+        return dfc.concat(dae.concat(def.concat(ebf)));
+    }
+
+    private CalcNewTri(a: number[], b: number[], c: number[]): number[][] {
+        let d = this.vec3Avg([c, a]);
+        let e = this.vec3Avg([a, b]);
+        let f = this.vec3Avg([b, c]);
+
+ 
+        d = this.vec3Norm(d);
+        e = this.vec3Norm(e);
+        f = this.vec3Norm(f);
+
+
+        return [d, e, f];
+    }
+
+    private vec3Norm(vec3: number[]): number[] {
+        let vec3Mag = Math.sqrt(vec3[0] * vec3[0] + vec3[1] * vec3[1] + vec3[2] * vec3[2]);
+        vec3[0] = vec3[0] / vec3Mag;
+        vec3[1] = vec3[1] / vec3Mag;
+        vec3[2] = vec3[2] / vec3Mag;
+        return vec3;
+    }
+
+    private vec3Avg(vec3s: number[][]): number[]{
+
+        let newVec = []; 
+        for (let i = 0; i < 3; i++){
+            let total = 0;
+            vec3s.forEach((vec3) => { total += vec3[i]; })
+            newVec.push(total/vec3s.length);
+        }
+        
+        return newVec;
+    }
+}
+
 /**
  * The wireframe of a cube centered around the origin in object space.
  */

@@ -158,6 +158,7 @@ export class GL_Wrapper {
     public deleteBuffer(buffer: WebGLBuffer) {
         this.context.deleteBuffer(buffer);
     }
+
 }
 
 export namespace GL_Wrapper {

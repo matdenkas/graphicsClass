@@ -2,6 +2,7 @@ import { Transform } from "./Transform"
 import { Geometry } from "./Geometry";
 import { GL_Wrapper } from "./GLWrapper";
 import { ShaderProgramHelper } from "./ShaderProgramHelper";
+import { Camera } from "./Camera"
 
 
 
@@ -28,7 +29,7 @@ export abstract class Object {
      * draw()
      * Draws the object to the loaded context.
      */
-    public draw() {
+    public draw(camera: Camera) {
         
         if (this.geometry.bufferNeeded) {
             this.buffer();
@@ -42,6 +43,8 @@ export abstract class Object {
 
 
         this.GLW.bindMatrixUniform(this.transform.computeTransformMatrix(), 4, `objectToWorld`);
+        this.GLW.bindMatrixUniform(camera.getWorldToCameraMatrix(), 4, `worldToCamera`);
+        this.GLW.bindMatrixUniform(camera.getCameraToProjectionMatrix(), 4, `cameraToProjection`);
         this.GLW.draw(this.indicesBuffer!, this.geometry.getIndexes().length, this.drawMode);
     }
 

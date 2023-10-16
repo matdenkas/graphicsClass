@@ -98,7 +98,7 @@ export class ShaderProgramHelper {
 
             //TODO::Make it to where we don't have to link and select the program every 
             //time we want to look up and uniform!
-            this.useProgram();
+            //this.useProgram();
             return this.context.getUniformLocation(this.program!, name);
         }
 }

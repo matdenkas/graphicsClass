@@ -1,5 +1,6 @@
+import { Camera } from "./Camera";
 import { GL_Wrapper } from "./GLWrapper";
-import { Plane, Cube, WireCube, Tetrahedron, Octahedron, Dodecahedron, Icosahedron } from "./Primitives"
+import { Plane, Cube, WireCube, Tetrahedron, Octahedron, Dodecahedron, Icosahedron, Sphere } from "./Primitives"
 
 const width = 800;
 const height = 800;
@@ -77,54 +78,31 @@ body?.addEventListener('keydown', (evt: KeyboardEvent) => {
 });
 
 
-// let cube0 = new Cube(glw);
-// cube0.transform.setTranslation(Math.sqrt((8/9)), 0, -(1/3));
-// cube0.transform.setScaling(.1, .1, .1);
-// cube0.geometry.setColors(allBlack)
-// cube0.draw();
-
-// let cube2 = new Cube(glw);
-// cube2.transform.setTranslation(-Math.sqrt((2/9)), Math.sqrt((2/3)), -(1/3));
-// cube2.transform.setScaling(.1, .1, .1);
-// cube2.geometry.setColors(allRed);
-// cube2.draw();
-
-// let cube3 = new Cube(glw);
-// cube3.transform.setTranslation(-Math.sqrt((2/9)), -Math.sqrt((2/3)), -(1/3));
-// console.log(cube3.transform.computeTransformMatrix());
-// console.log(-(1/3));
-// cube3.transform.setScaling(.1, .1, .1);
-// cube3.geometry.setColors(allBlue);
-// cube3.draw();
-
-// let cube4 = new Cube(glw);
-// cube4.transform.setTranslation(0, 0, 1);
-// cube4.transform.setScaling(.1, .1, .1);
-// cube4.geometry.setColors(allGreen);
-// cube4.draw();
-
-
-// let cube5 = new Cube(glw);
-// cube5.transform.setScaling(.01, .01, .01);
-// cube5.draw();
 
 // let shape = new Tetrahedron(glw);
-let shape = new Icosahedron(glw);
-shape.draw();
+//let shape = new Sphere(glw, 0);
+let shape1 = new Sphere(glw, 6);
 
+let c = new Camera();
+c.setCameraToProjectionMatrix(180, 1, .0001, 100000);
 
+//DrawInterval
+setInterval(() => {
+    shape1.draw(c);
+    glw.reportError();
+}, 1000/16);
 
-
-
+//Rotate
 let i = 0;
 setInterval(() => {
-
-
-    shape.transform.setRotation(i, 0, i);
-    shape.draw();
-    glw.reportError();
+    shape1.transform.setRotation(i, i, i);
     i = (i + 1)%360;
-}, 1000/60);
+}, 1000/16);
+
+
+
+
+
 
 // function colorModeChange(c: Cube, colorMode: number) {
 //     lastColorMode = colorMode;
