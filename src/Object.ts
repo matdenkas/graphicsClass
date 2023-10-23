@@ -29,7 +29,7 @@ export abstract class Object {
      * draw()
      * Draws the object to the loaded context.
      */
-    public draw(camera: Camera) {
+    public draw(camera: Camera, isWire = false) {
         
         if (this.geometry.bufferNeeded) {
             this.buffer();
@@ -39,13 +39,12 @@ export abstract class Object {
         this.GLW.attachProgramWrapper(this.programShader);
 
         this.GLW.bindAttributeNameToBuffer(this.verticesBuffer!, "vertex_position", 3, false, 0, 0);
-        this.GLW.bindAttributeNameToBuffer(this.colorBuffer!, "vertex_color", 3, false, 0, 0);
-
 
         this.GLW.bindMatrixUniform(this.transform.computeTransformMatrix(), 4, `objectToWorld`);
         this.GLW.bindMatrixUniform(camera.getWorldToCameraMatrix(), 4, `worldToCamera`);
         this.GLW.bindMatrixUniform(camera.getCameraToProjectionMatrix(), 4, `cameraToProjection`);
-        this.GLW.draw(this.indicesBuffer!, this.geometry.getIndexes().length, this.drawMode);
+        this.GLW.bindVectorUniform(this.geometry.getColors(), 'color');
+        this.GLW.draw(this.indicesBuffer!, this.geometry.getIndexes().length, isWire ? GL_Wrapper.drawModes.LINES : GL_Wrapper.drawModes.TRIANGLES);
     }
 
     private buffer() {
@@ -54,7 +53,6 @@ export abstract class Object {
         this.GLW.deleteBuffer(this.indicesBuffer);
 
         this.verticesBuffer = this.GLW.buildAndPushArrayBuffer(this.geometry.getVertexes());
-        this.colorBuffer = this.GLW.buildAndPushArrayBuffer(this.geometry.getColors());
         this.indicesBuffer = this.GLW.buildAndPushElementArrayBuffer(this.geometry.getIndexes());
     }
 }

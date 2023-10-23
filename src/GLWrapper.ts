@@ -116,6 +116,23 @@ export class GL_Wrapper {
         }
     }
 
+
+    /**
+     * This function binds a vector to a uniform in the program.
+     * @param vector The vector
+     * @param uniformName The name of the uniform to bind this to.
+     */
+    public bindVectorUniform(vector: number[], uniformName: string) {
+        if (this.shaderProgramHelper == null) {
+            throw `No shader program to try and attach uniform ${uniformName} to!`
+        }
+
+        let loc = this.shaderProgramHelper.getUniformLocation(uniformName);
+
+        this.context.uniform4f(loc, vector[0], vector[1], vector[2], vector[3])
+    }
+
+
     public draw(indexBuffer: WebGLBuffer, indexLength: number, mode: GL_Wrapper.drawModes) {
         this.context.bindBuffer(this.context.ELEMENT_ARRAY_BUFFER, indexBuffer);
         this.context.clearColor(0.114, 0.541, 0.522, 1.0);

@@ -1,7 +1,7 @@
 
 export class Geometry {
     private vertexes: Float32Array;
-    private colors: Float32Array;
+    private colors: number[];
     private indexes: Uint16Array;
 
     public bufferNeeded: boolean;
@@ -13,9 +13,8 @@ export class Geometry {
 
     public getVertexes() { return this.vertexes.slice(); }
 
-    public setColors(colors: Float32Array) {
-        this.colors = colors;
-        this.bufferNeeded = true;
+    public setColors(r: number, g: number, b: number, a: number) {
+        this.colors = [r, g, b, a];
     }
 
     public getColors() { return this.colors; }

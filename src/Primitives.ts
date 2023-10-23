@@ -10,7 +10,7 @@ export class Plane extends Object {
     
     constructor(glw: GL_Wrapper) {
         super(glw);
-        this.drawMode = GL_Wrapper.drawModes.TRIANGLES;
+        
 
         this.geometry.setIndexes(new Uint16Array([0, 1, 2, 0, 2, 3, 0]));
         this.geometry.setVertexes(new Float32Array([
@@ -19,7 +19,7 @@ export class Plane extends Object {
              .5, -.5, 0,
              .5,  .5, 0,
         ]));
-        this.geometry.setColors(this.geometry.getVertexes().slice());
+        this.geometry.setColors(1, .7, .75, 1);
 
         this.programShader.attachShaderFromShaderLib(`v_O2W&color`, ShaderProgramHelper.shaderTypes.VERTEX);
         this.programShader.attachShaderFromShaderLib(`f_SafeSingleTriWColor`, ShaderProgramHelper.shaderTypes.FRAGMENT);
@@ -34,7 +34,7 @@ export class Plane extends Object {
 export class Tetrahedron extends Object {
     constructor(glw: GL_Wrapper) {
         super(glw);
-        this.drawMode = GL_Wrapper.drawModes.TRIANGLES;
+        
 
         this.geometry.setIndexes(new Uint16Array([
             //face 1
@@ -53,7 +53,7 @@ export class Tetrahedron extends Object {
             //3
             0, 0, 1,
         ]));
-        this.geometry.setColors(this.geometry.getVertexes().slice());
+        this.geometry.setColors(1, .7, .75, 1);
 
         this.programShader.attachShaderFromShaderLib(`v_O2W&color`, ShaderProgramHelper.shaderTypes.VERTEX);
         this.programShader.attachShaderFromShaderLib(`f_SafeSingleTriWColor`, ShaderProgramHelper.shaderTypes.FRAGMENT);
@@ -67,7 +67,7 @@ export class Tetrahedron extends Object {
 export class Cube extends Object {
     constructor(glw: GL_Wrapper) {
         super(glw);
-        this.drawMode = GL_Wrapper.drawModes.TRIANGLES;
+        
 
         this.geometry.setIndexes(new Uint16Array([
             0, 1, 2, // Side 0
@@ -93,7 +93,7 @@ export class Cube extends Object {
              -.5, -.5,  .5,
               .5, -.5,  .5,
         ]));
-        this.geometry.setColors(this.geometry.getVertexes().slice());
+        this.geometry.setColors(1, .7, .75, 1);
 
         this.programShader.attachShaderFromShaderLib(`v_O2W&color`, ShaderProgramHelper.shaderTypes.VERTEX);
         this.programShader.attachShaderFromShaderLib(`f_SafeSingleTriWColor`, ShaderProgramHelper.shaderTypes.FRAGMENT);
@@ -108,7 +108,7 @@ export class Cube extends Object {
 export class Octahedron extends Object {
     constructor(glw: GL_Wrapper) {
         super(glw);
-        this.drawMode = GL_Wrapper.drawModes.TRIANGLES;
+        
 
         this.geometry.setIndexes(new Uint16Array([
             //Top
@@ -132,7 +132,7 @@ export class Octahedron extends Object {
             0, -1, 0, //4
             0, 0, -1 //5
         ]));
-        this.geometry.setColors(this.geometry.getVertexes().slice());
+        this.geometry.setColors(1, .7, .75, 1);
 
         this.programShader.attachShaderFromShaderLib(`v_O2W&color`, ShaderProgramHelper.shaderTypes.VERTEX);
         this.programShader.attachShaderFromShaderLib(`f_SafeSingleTriWColor`, ShaderProgramHelper.shaderTypes.FRAGMENT);
@@ -150,7 +150,7 @@ export class Octahedron extends Object {
 export class Dodecahedron extends Object {
     constructor(glw: GL_Wrapper) {
         super(glw);
-        this.drawMode = GL_Wrapper.drawModes.TRIANGLES;
+        
 
         this.geometry.setIndexes(new Uint16Array([
             18, 2, 1, 
@@ -212,7 +212,7 @@ export class Dodecahedron extends Object {
             0.57735 , -0.57735 , 0.57735,
             -0.57735 , -0.57735 , -0.57735,
         ]));
-        this.geometry.setColors(this.geometry.getVertexes().slice());
+        this.geometry.setColors(1, .7, .75, 1);
 
         this.programShader.attachShaderFromShaderLib(`v_O2W&color`, ShaderProgramHelper.shaderTypes.VERTEX);
         this.programShader.attachShaderFromShaderLib(`f_SafeSingleTriWColor`, ShaderProgramHelper.shaderTypes.FRAGMENT);
@@ -222,7 +222,7 @@ export class Dodecahedron extends Object {
 export class Icosahedron extends Object {
     constructor(glw: GL_Wrapper) {
         super(glw);
-        this.drawMode = GL_Wrapper.drawModes.TRIANGLES;
+        
 
         this.geometry.setIndexes(new Uint16Array([
             1, 2, 6, 
@@ -261,7 +261,7 @@ export class Icosahedron extends Object {
             0 , 0.525731 , -0.850651,
             0 , 0.525731 , 0.850651,
         ]));
-        this.geometry.setColors(this.geometry.getVertexes().slice());
+        this.geometry.setColors(1, .7, .75, 1);
 
         this.programShader.attachShaderFromShaderLib(`v_O2W&color`, ShaderProgramHelper.shaderTypes.VERTEX);
         this.programShader.attachShaderFromShaderLib(`f_SafeSingleTriWColor`, ShaderProgramHelper.shaderTypes.FRAGMENT);
@@ -271,7 +271,7 @@ export class Icosahedron extends Object {
 export class Sphere extends Object {
     constructor(glw: GL_Wrapper, level: number = 6) {
         super(glw);
-        this.drawMode = GL_Wrapper.drawModes.TRIANGLES;
+        
 
         let newGeometry = this.CreateSphere(glw, level);
 
@@ -282,7 +282,7 @@ export class Sphere extends Object {
 
         this.geometry.setIndexes(new Uint16Array(newTopology));
         this.geometry.setVertexes(new Float32Array(newGeometry));
-        this.geometry.setColors(this.geometry.getVertexes().slice());
+        this.geometry.setColors(1, .7, .75, 1);
 
         this.programShader.attachShaderFromShaderLib(`v_O2W&color`, ShaderProgramHelper.shaderTypes.VERTEX);
         this.programShader.attachShaderFromShaderLib(`f_SafeSingleTriWColor`, ShaderProgramHelper.shaderTypes.FRAGMENT);
@@ -393,7 +393,7 @@ export class WireCube extends Object {
              -.5, -.5,  .5,
               .5, -.5,  .5,
         ]));
-        this.geometry.setColors(this.geometry.getVertexes().slice());
+        this.geometry.setColors(1, .7, .75, 1);
 
 
         this.programShader.attachShaderFromShaderLib(`v_O2W&color`, ShaderProgramHelper.shaderTypes.VERTEX);
