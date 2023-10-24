@@ -18,32 +18,32 @@ var glw = new GL_Wrapper(canvas);
 
 const cameraAngels: Camera[] = []
 cameraAngels.push(new Camera());
-cameraAngels[0].setCameraToProjectionMatrix(60, width/height, .1, 2000);
+cameraAngels[0].setCameraToProjectionMatrix(90, width/height, .1, 2000);
 cameraAngels[0].transform.setTranslation(-50, -25, 0);
 cameraAngels[0].transform.setRotation(-90, 0, 0);
 
 cameraAngels.push(new Camera());
-cameraAngels[1].setCameraToProjectionMatrix(60, width/height, .1, 2000);
+cameraAngels[1].setCameraToProjectionMatrix(90, width/height, .1, 2000);
 cameraAngels[1].transform.setTranslation(-25, -25, 0);
 cameraAngels[1].transform.setRotation(-90, 0, 0);
 
 cameraAngels.push(new Camera());
-cameraAngels[2].setCameraToProjectionMatrix(60, width/height, .1, 2000);
+cameraAngels[2].setCameraToProjectionMatrix(90, width/height, .1, 2000);
 cameraAngels[2].transform.setTranslation(0, -25, 0);
 cameraAngels[2].transform.setRotation(-90, 0, 0);
 
 cameraAngels.push(new Camera());
-cameraAngels[3].setCameraToProjectionMatrix(60, width/height, .1, 2000);
+cameraAngels[3].setCameraToProjectionMatrix(90, width/height, .1, 2000);
 cameraAngels[3].transform.setTranslation(25, -25, 0);
 cameraAngels[3].transform.setRotation(-90, 0, 0);
 
 cameraAngels.push(new Camera());
-cameraAngels[4].setCameraToProjectionMatrix(60, width/height, .1, 2000);
+cameraAngels[4].setCameraToProjectionMatrix(90, width/height, .1, 2000);
 cameraAngels[4].transform.setTranslation(50, -25, 0);
 cameraAngels[4].transform.setRotation(-90, 0, 0);
 
 cameraAngels.push(new Camera());
-cameraAngels[5].setCameraToProjectionMatrix(60, width/height, .1, 2000);
+cameraAngels[5].setCameraToProjectionMatrix(90, width/height, .1, 2000);
 cameraAngels[5].transform.setTranslation(75, -25, 0);
 cameraAngels[5].transform.setRotation(-90, 0, 0);
 
@@ -88,19 +88,20 @@ scene1.objects['Dodecahedron'].transform.setTranslation(3, 0, -10);
 scene1.objects['Icosahedron'] = new Icosahedron(glw);
 scene1.objects['Icosahedron'].transform.setTranslation(6, 0, -10);
 
-scene1.objects['Sphere'] = new Sphere(glw, 5);
+let sphereLOD = 6
+scene1.objects['Sphere'] = new Sphere(glw, sphereLOD);
 scene1.objects['Sphere'].transform.setTranslation(-6, 5, -10);
 scene1.objects['Sphere'].transform.setScaling(.2, .2, .2);
-scene1.objects['Sphere1'] = new Sphere(glw, 5);
+scene1.objects['Sphere1'] = new Sphere(glw, sphereLOD);
 scene1.objects['Sphere1'].transform.setTranslation(-3, 5, -10);
 scene1.objects['Sphere1'].transform.setScaling(.6, .6, .6);
-scene1.objects['Sphere2'] = new Sphere(glw, 5);
+scene1.objects['Sphere2'] = new Sphere(glw, sphereLOD);
 scene1.objects['Sphere2'].transform.setTranslation(0, 5, -10);
 scene1.objects['Sphere2'].transform.setScaling(.8, .8, .8);
-scene1.objects['Sphere3'] = new Sphere(glw, 5);
+scene1.objects['Sphere3'] = new Sphere(glw, sphereLOD);
 scene1.objects['Sphere3'].transform.setTranslation(3, 5, -10);
 scene1.objects['Sphere3'].transform.setScaling(1, 1, 1);
-scene1.objects['Sphere4'] = new Sphere(glw, 5);
+scene1.objects['Sphere4'] = new Sphere(glw, sphereLOD);
 scene1.objects['Sphere4'].transform.setTranslation(6, 5, -10);
 scene1.objects['Sphere4'].transform.setScaling(1.2, 1.2, 1.2);
 
@@ -125,7 +126,7 @@ scene1.objects['Show_Icosahedron'] = new Icosahedron(glw);
 cameraPOS = cameraAngels[4].transform.getTranslation();
 scene1.objects['Show_Icosahedron'].transform.setTranslation(cameraPOS[0], cameraPOS[1] + 26, cameraPOS[2] - 25);
 
-scene1.objects['Show_Sp'] = new Sphere(glw , 5);
+scene1.objects['Show_Sp'] = new Sphere(glw , sphereLOD);
 cameraPOS = cameraAngels[5].transform.getTranslation();
 scene1.objects['Show_Sp'].transform.setTranslation(cameraPOS[0], cameraPOS[1] + 26, cameraPOS[2] - 25);
 
@@ -138,11 +139,11 @@ let rotation = 0;
 scene1.actions['Standard rotations'] = setInterval(() => {
     Object.entries(scene1.objects).forEach(([key, value]) => {
         if(key != 'Sky' && key != 'Ground') {
-            value.transform.setRotation(rotation, rotation, rotation);
+            value.transform.setRotation(30, rotation, rotation);
         }
     });
     rotation = (rotation + 3)%360;
-}, 1000);
+}, 1000 /30);
 
 
 let sphereHeight = 5;
@@ -158,7 +159,7 @@ scene1.actions['Sphere Dance'] = setInterval(() => {
         }
     });
     delta *= (sphereHeight > 7 || sphereHeight < 5 ? -1 : 1);
-}, 1000/16);
+}, 1000/30);
 
 
 let body = document.getElementById('body') as HTMLElement;

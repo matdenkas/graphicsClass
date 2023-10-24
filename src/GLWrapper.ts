@@ -30,6 +30,7 @@ export class GL_Wrapper {
      */
     public attachProgramWrapper(programWrapper: ShaderProgramHelper) {
         this.shaderProgramHelper = programWrapper;
+        this.shaderProgramHelper.useProgram();
     }
 
     /**
@@ -77,11 +78,13 @@ export class GL_Wrapper {
             throw `No shader program to try and attach attribute ${attributeName} to!`
         }
 
+        
         this.context.bindBuffer(this.context.ARRAY_BUFFER, buffer);
         var loc = this.shaderProgramHelper.getAttributeLocation(attributeName);
         this.context.vertexAttribPointer(loc, amntPerVertex, this.context.FLOAT, normalize, stride, offset); 
         this.context.enableVertexAttribArray(loc);
         this.context.bindBuffer(this.context.ARRAY_BUFFER, null);
+        
     }
 
     /**

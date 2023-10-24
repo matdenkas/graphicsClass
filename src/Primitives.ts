@@ -23,6 +23,7 @@ export class Plane extends Object {
 
         this.programShader.attachShaderFromShaderLib(`v_O2W&color`, ShaderProgramHelper.shaderTypes.VERTEX);
         this.programShader.attachShaderFromShaderLib(`f_SafeSingleTriWColor`, ShaderProgramHelper.shaderTypes.FRAGMENT);
+        this.programShader.linkProgram();
     }
 }
 
@@ -57,6 +58,7 @@ export class Tetrahedron extends Object {
 
         this.programShader.attachShaderFromShaderLib(`v_O2W&color`, ShaderProgramHelper.shaderTypes.VERTEX);
         this.programShader.attachShaderFromShaderLib(`f_SafeSingleTriWColor`, ShaderProgramHelper.shaderTypes.FRAGMENT);
+        this.programShader.linkProgram();
     }
 }
 
@@ -97,6 +99,7 @@ export class Cube extends Object {
 
         this.programShader.attachShaderFromShaderLib(`v_O2W&color`, ShaderProgramHelper.shaderTypes.VERTEX);
         this.programShader.attachShaderFromShaderLib(`f_SafeSingleTriWColor`, ShaderProgramHelper.shaderTypes.FRAGMENT);
+        this.programShader.linkProgram();
     }
 }
 
@@ -136,6 +139,7 @@ export class Octahedron extends Object {
 
         this.programShader.attachShaderFromShaderLib(`v_O2W&color`, ShaderProgramHelper.shaderTypes.VERTEX);
         this.programShader.attachShaderFromShaderLib(`f_SafeSingleTriWColor`, ShaderProgramHelper.shaderTypes.FRAGMENT);
+        this.programShader.linkProgram();
     }
 }
 
@@ -216,6 +220,7 @@ export class Dodecahedron extends Object {
 
         this.programShader.attachShaderFromShaderLib(`v_O2W&color`, ShaderProgramHelper.shaderTypes.VERTEX);
         this.programShader.attachShaderFromShaderLib(`f_SafeSingleTriWColor`, ShaderProgramHelper.shaderTypes.FRAGMENT);
+        this.programShader.linkProgram();
     }
 }
 
@@ -265,6 +270,7 @@ export class Icosahedron extends Object {
 
         this.programShader.attachShaderFromShaderLib(`v_O2W&color`, ShaderProgramHelper.shaderTypes.VERTEX);
         this.programShader.attachShaderFromShaderLib(`f_SafeSingleTriWColor`, ShaderProgramHelper.shaderTypes.FRAGMENT);
+        this.programShader.linkProgram();
     }
 }
 
@@ -286,6 +292,7 @@ export class Sphere extends Object {
 
         this.programShader.attachShaderFromShaderLib(`v_O2W&color`, ShaderProgramHelper.shaderTypes.VERTEX);
         this.programShader.attachShaderFromShaderLib(`f_SafeSingleTriWColor`, ShaderProgramHelper.shaderTypes.FRAGMENT);
+        this.programShader.linkProgram();
     }
 
     private CreateSphere(glw: GL_Wrapper, level: number) {

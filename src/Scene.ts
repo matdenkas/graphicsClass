@@ -11,10 +11,12 @@ export class Scene {
     private isWire: boolean;
 
     private drawInterval: NodeJS.Timeout = setInterval(() => {
-        
+        let stamp = Date.now();
         Object.entries(this.objects).forEach(([key, val]) => { val.draw(this.camera, this.isWire); });
+
+        console.log(`Frame took: ${(Date.now() - stamp) / 1000}`)
         
-    }, 1000 / 16)
+    }, 1000 / 30)
 
     constructor(camera: Camera) {
         this.camera = camera;

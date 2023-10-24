@@ -63,12 +63,17 @@ export class ShaderProgramHelper {
      * Links, compiles program. Then sets this program to be used for the context it was made with.
      */
     public useProgram() {
+    
+
+        this.context.useProgram(this.program);
+    }
+
+    public linkProgram() {
         this.context.linkProgram(this.program!);
         if (!this.context.getProgramParameter(this.program!, this.context.LINK_STATUS)) {
             const info = this.context.getProgramInfoLog(this.program!);
             throw `Could not compile WebGL program. \n\n${info}`;
         }
-        this.context.useProgram(this.program);
     }
 
 
@@ -83,7 +88,6 @@ export class ShaderProgramHelper {
 
         //TODO::Make it to where we don't have to link and select the program every 
         //time we want to look up and attribute!
-        this.useProgram();
         return this.context.getAttribLocation(this.program!, name);
     }
 
