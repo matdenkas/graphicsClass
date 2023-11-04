@@ -48,9 +48,4 @@ export class Camera {
         return tempTransform.computeTransformMatrix();
     }
 
-
-
-
-    
-
 }
