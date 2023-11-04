@@ -1,6 +1,7 @@
 import { GL_Wrapper } from "./GLWrapper";
 import { Object } from "./object";
 import { ShaderProgramHelper } from "./ShaderProgramHelper";
+import { MAT_LIB } from "./Materials";
 
 
 /**
@@ -286,12 +287,14 @@ export class Sphere extends Object {
             newTopology.push(i);
         }
 
+        this.material = MAT_LIB.get('Ruby');
+
         this.geometry.setIndexes(new Uint16Array(newTopology));
         this.geometry.setVertexes(new Float32Array(newGeometry));
-        this.geometry.setColors(1, .7, .75, 1);
+        this.geometry.setNormals(new Float32Array(newGeometry));
 
-        this.programShader.attachShaderFromShaderLib(`v_O2W&color`, ShaderProgramHelper.shaderTypes.VERTEX);
-        this.programShader.attachShaderFromShaderLib(`f_SafeSingleTriWColor`, ShaderProgramHelper.shaderTypes.FRAGMENT);
+        this.programShader.attachShaderFromShaderLib(`vGouraudShading`, ShaderProgramHelper.shaderTypes.VERTEX);
+        this.programShader.attachShaderFromShaderLib(`fGouraudShading`, ShaderProgramHelper.shaderTypes.FRAGMENT);
         this.programShader.linkProgram();
     }
 

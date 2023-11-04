@@ -132,8 +132,37 @@ export class GL_Wrapper {
 
         let loc = this.shaderProgramHelper.getUniformLocation(uniformName);
 
-        this.context.uniform4f(loc, vector[0], vector[1], vector[2], vector[3])
+        switch (vector.length) {
+            case 3:
+                this.context.uniform3f(loc, vector[0], vector[1], vector[2]);
+            case 4:
+                this.context.uniform4f(loc, vector[0], vector[1], vector[2], vector[3]);
+                break;
+        
+            default:
+                console.error('bindVectorUniform | vector of unimplemented length given to bind!')
+                break;
+        }
+
+        
+
     }
+
+    /**
+     * This function binds a float to a uniform in the program.
+     * @param value The float
+     * @param uniformName The name of the uniform to bind this to.
+     */
+    public bindFloatUniform(value: number, uniformName: string) {
+        if (this.shaderProgramHelper == null) {
+            throw `No shader program to try and attach uniform ${uniformName} to!`
+        }
+
+        let loc = this.shaderProgramHelper.getUniformLocation(uniformName);
+
+        this.context.uniform1f(loc, value);
+    }
+
 
 
     public draw(indexBuffer: WebGLBuffer, indexLength: number, mode: GL_Wrapper.drawModes) {

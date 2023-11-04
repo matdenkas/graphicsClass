@@ -2,6 +2,7 @@ import { Camera } from "./Camera";
 import { GL_Wrapper } from "./GLWrapper";
 import { Scene } from "./Scene";
 import { Plane, Cube, WireCube, Tetrahedron, Octahedron, Dodecahedron, Icosahedron, Sphere } from "./Primitives"
+import { Light } from "./Light"
 
 const width = 800;
 const height = 800;
@@ -61,32 +62,34 @@ cameraAngels[7].transform.setRotation(0, 0, 0);
 cameraAngels.push(new Camera());
 
 
-let scene1 = new Scene(cameraAngels[6]);
+let scene1 = new Scene(cameraAngels[6], new Light);
 
-scene1.objects['Ground'] = new Cube(glw);
-scene1.objects['Ground'].transform.setTranslation(0, -1.5, 0);
-scene1.objects['Ground'].transform.setScaling(1000, .2, 1000);
-scene1.objects['Ground'].geometry.setColors(.85, .75, .55, 1);
+// scene1.objects['Ground'] = new Cube(glw);
+// scene1.objects['Ground'].transform.setTranslation(0, -1.5, 0);
+// scene1.objects['Ground'].transform.setScaling(1000, .2, 1000);
+// scene1.objects['Ground'].geometry.setColors(.85, .75, .55, 1);
 
-scene1.objects['Sky'] = new Cube(glw);
-scene1.objects['Sky'].transform.setTranslation(0, 0, -200);
-scene1.objects['Sky'].transform.setScaling(1000, 1000, .2);
-scene1.objects['Sky'].geometry.setColors(.4, .8, .9, 1);
+// scene1.objects['Sky'] = new Cube(glw);
+// scene1.objects['Sky'].transform.setTranslation(0, 0, -200);
+// scene1.objects['Sky'].transform.setScaling(1000, 1000, .2);
+// scene1.objects['Sky'].geometry.setColors(.4, .8, .9, 1);
 
-scene1.objects['Tetrahedron'] = new Tetrahedron(glw);
-scene1.objects['Tetrahedron'].transform.setTranslation(-6, 0, -10);
+// scene1.objects['Tetrahedron'] = new Tetrahedron(glw);
+// scene1.objects['Tetrahedron'].transform.setTranslation(-6, 0, -10);
 
-scene1.objects['Cube'] = new Cube(glw);
-scene1.objects['Cube'].transform.setTranslation(-3, 0, -10);
+// scene1.objects['Cube'] = new Cube(glw);
+// scene1.objects['Cube'].transform.setTranslation(-3, 0, -10);
 
-scene1.objects['Octahedron'] = new Octahedron(glw);
-scene1.objects['Octahedron'].transform.setTranslation(0, 0, -10);
+// scene1.objects['Octahedron'] = new Octahedron(glw);
+// scene1.objects['Octahedron'].transform.setTranslation(0, 0, -10);
 
-scene1.objects['Dodecahedron'] = new Dodecahedron(glw);
-scene1.objects['Dodecahedron'].transform.setTranslation(3, 0, -10);
+// scene1.objects['Dodecahedron'] = new Dodecahedron(glw);
+// scene1.objects['Dodecahedron'].transform.setTranslation(3, 0, -10);
 
-scene1.objects['Icosahedron'] = new Icosahedron(glw);
-scene1.objects['Icosahedron'].transform.setTranslation(6, 0, -10);
+// scene1.objects['Icosahedron'] = new Icosahedron(glw);
+// scene1.objects['Icosahedron'].transform.setTranslation(6, 0, -10);
+
+scene1.light.transform.setTranslation(0, 10, 0);
 
 let sphereLOD = 6
 scene1.objects['Sphere'] = new Sphere(glw, sphereLOD);
@@ -105,30 +108,30 @@ scene1.objects['Sphere4'] = new Sphere(glw, sphereLOD);
 scene1.objects['Sphere4'].transform.setTranslation(6, 5, -10);
 scene1.objects['Sphere4'].transform.setScaling(1.2, 1.2, 1.2);
 
-let cameraPOS
-scene1.objects['Show_Tetrahedron'] = new Tetrahedron(glw);
-cameraPOS = cameraAngels[0].transform.getTranslation();
-scene1.objects['Show_Tetrahedron'].transform.setTranslation(cameraPOS[0], cameraPOS[1] + 26, cameraPOS[2] - 25);
+// let cameraPOS
+// scene1.objects['Show_Tetrahedron'] = new Tetrahedron(glw);
+// cameraPOS = cameraAngels[0].transform.getTranslation();
+// scene1.objects['Show_Tetrahedron'].transform.setTranslation(cameraPOS[0], cameraPOS[1] + 26, cameraPOS[2] - 25);
 
-scene1.objects['Show_Cube'] = new Cube(glw);
-cameraPOS = cameraAngels[1].transform.getTranslation();
-scene1.objects['Show_Cube'].transform.setTranslation(cameraPOS[0], cameraPOS[1] + 26, cameraPOS[2] - 25);
+// scene1.objects['Show_Cube'] = new Cube(glw);
+// cameraPOS = cameraAngels[1].transform.getTranslation();
+// scene1.objects['Show_Cube'].transform.setTranslation(cameraPOS[0], cameraPOS[1] + 26, cameraPOS[2] - 25);
 
-scene1.objects['Show_Octahedron'] = new Octahedron(glw);
-cameraPOS = cameraAngels[2].transform.getTranslation();
-scene1.objects['Show_Octahedron'].transform.setTranslation(cameraPOS[0], cameraPOS[1] + 26, cameraPOS[2] - 25);
+// scene1.objects['Show_Octahedron'] = new Octahedron(glw);
+// cameraPOS = cameraAngels[2].transform.getTranslation();
+// scene1.objects['Show_Octahedron'].transform.setTranslation(cameraPOS[0], cameraPOS[1] + 26, cameraPOS[2] - 25);
 
-scene1.objects['Show_Dodecahedron'] = new Dodecahedron(glw);
-cameraPOS = cameraAngels[3].transform.getTranslation();
-scene1.objects['Show_Dodecahedron'].transform.setTranslation(cameraPOS[0], cameraPOS[1] + 26, cameraPOS[2] - 25);
+// scene1.objects['Show_Dodecahedron'] = new Dodecahedron(glw);
+// cameraPOS = cameraAngels[3].transform.getTranslation();
+// scene1.objects['Show_Dodecahedron'].transform.setTranslation(cameraPOS[0], cameraPOS[1] + 26, cameraPOS[2] - 25);
 
-scene1.objects['Show_Icosahedron'] = new Icosahedron(glw);
-cameraPOS = cameraAngels[4].transform.getTranslation();
-scene1.objects['Show_Icosahedron'].transform.setTranslation(cameraPOS[0], cameraPOS[1] + 26, cameraPOS[2] - 25);
+// scene1.objects['Show_Icosahedron'] = new Icosahedron(glw);
+// cameraPOS = cameraAngels[4].transform.getTranslation();
+// scene1.objects['Show_Icosahedron'].transform.setTranslation(cameraPOS[0], cameraPOS[1] + 26, cameraPOS[2] - 25);
 
-scene1.objects['Show_Sp'] = new Sphere(glw , sphereLOD);
-cameraPOS = cameraAngels[5].transform.getTranslation();
-scene1.objects['Show_Sp'].transform.setTranslation(cameraPOS[0], cameraPOS[1] + 26, cameraPOS[2] - 25);
+// scene1.objects['Show_Sp'] = new Sphere(glw , sphereLOD);
+// cameraPOS = cameraAngels[5].transform.getTranslation();
+// scene1.objects['Show_Sp'].transform.setTranslation(cameraPOS[0], cameraPOS[1] + 26, cameraPOS[2] - 25);
 
 
 
