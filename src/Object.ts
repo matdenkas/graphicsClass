@@ -51,6 +51,8 @@ export abstract class Object {
         this.GLW.bindMatrixUniform(camera.getWorldToCameraMatrix(), 4, `worldToCamera`);
         this.GLW.bindMatrixUniform(camera.getCameraToProjectionMatrix(), 4, `cameraToProjection`);
 
+        this.GLW.bindVectorUniform(camera.transform.getTranslation(), 'cameraPos');
+
         light.assignUniforms(this.GLW);
         
         this.material.assignMatUniform(this.GLW);

@@ -19,136 +19,50 @@ var glw = new GL_Wrapper(canvas);
 
 
 const cameraAngels: Camera[] = []
-cameraAngels.push(new Camera());
-cameraAngels[0].setCameraToProjectionMatrix(90, width/height, .1, 2000);
-cameraAngels[0].transform.setTranslation(-50, -25, 0);
-cameraAngels[0].transform.setRotation(-90, 0, 0);
 
 cameraAngels.push(new Camera());
-cameraAngels[1].setCameraToProjectionMatrix(90, width/height, .1, 2000);
-cameraAngels[1].transform.setTranslation(-25, -25, 0);
-cameraAngels[1].transform.setRotation(-90, 0, 0);
+cameraAngels[0].setCameraToProjectionMatrix(60, width/height, .1, 2000);
+cameraAngels[0].transform.setTranslation(0, 10, 0);
+cameraAngels[0].transform.setRotation(30, 0, 0);
 
 cameraAngels.push(new Camera());
-cameraAngels[2].setCameraToProjectionMatrix(90, width/height, .1, 2000);
-cameraAngels[2].transform.setTranslation(0, -25, 0);
-cameraAngels[2].transform.setRotation(-90, 0, 0);
-
-cameraAngels.push(new Camera());
-cameraAngels[3].setCameraToProjectionMatrix(90, width/height, .1, 2000);
-cameraAngels[3].transform.setTranslation(25, -25, 0);
-cameraAngels[3].transform.setRotation(-90, 0, 0);
-
-cameraAngels.push(new Camera());
-cameraAngels[4].setCameraToProjectionMatrix(90, width/height, .1, 2000);
-cameraAngels[4].transform.setTranslation(50, -25, 0);
-cameraAngels[4].transform.setRotation(-90, 0, 0);
-
-cameraAngels.push(new Camera());
-cameraAngels[5].setCameraToProjectionMatrix(90, width/height, .1, 2000);
-cameraAngels[5].transform.setTranslation(75, -25, 0);
-cameraAngels[5].transform.setRotation(-90, 0, 0);
-
-
-cameraAngels.push(new Camera());
-cameraAngels[6].setCameraToProjectionMatrix(60, width/height, .1, 2000);
-cameraAngels[6].transform.setTranslation(0, 10, 0);
-cameraAngels[6].transform.setRotation(30, 0, 0);
-
-cameraAngels.push(new Camera());
-cameraAngels[7].setCameraToProjectionMatrix(60, width/height, .1, 2000);
-cameraAngels[7].transform.setTranslation(0, 5, -5);
-cameraAngels[7].transform.setRotation(0, 0, 0);
+cameraAngels[1].setCameraToProjectionMatrix(60, width/height, .1, 2000);
+cameraAngels[1].transform.setTranslation(0, 5, -5);
+cameraAngels[1].transform.setRotation(0, 0, 0);
 
 cameraAngels.push(new Camera());
 
 
-let scene1 = new Scene(cameraAngels[6], new Light);
-
-// scene1.objects['Ground'] = new Cube(glw);
-// scene1.objects['Ground'].transform.setTranslation(0, -1.5, 0);
-// scene1.objects['Ground'].transform.setScaling(1000, .2, 1000);
-// scene1.objects['Ground'].material = MAT_LIB.get('Silver');
-// scene1.objects['Sky'] = new Cube(glw);
-// scene1.objects['Sky'].transform.setTranslation(0, 0, -200);
-// scene1.objects['Sky'].transform.setScaling(1000, 1000, .2);
-// scene1.objects['Sky'].material = MAT_LIB.get('Silver');
-
-
-// scene1.objects['Tetrahedron'] = new Tetrahedron(glw);
-// scene1.objects['Tetrahedron'].transform.setTranslation(-6, 0, -10);
-
-// scene1.objects['Cube'] = new Cube(glw);
-// scene1.objects['Cube'].transform.setTranslation(-3, 0, -10);
-
-// scene1.objects['Octahedron'] = new Octahedron(glw);
-// scene1.objects['Octahedron'].transform.setTranslation(0, 0, -10);
-
-// scene1.objects['Dodecahedron'] = new Dodecahedron(glw);
-// scene1.objects['Dodecahedron'].transform.setTranslation(3, 0, -10);
-
-// scene1.objects['Icosahedron'] = new Icosahedron(glw);
-// scene1.objects['Icosahedron'].transform.setTranslation(2, 4, -6);
-
+let scene1 = new Scene(cameraAngels[0], new Light);
 scene1.light.transform.setTranslation(0, 5, -5.5);
+let sphereLOD = 6;
+scene1.objects['CameraLoc1'] = new Sphere(glw, sphereLOD);
+scene1.objects['CameraLoc1'].transform.setTranslation(0, 5, -5.5);
+scene1.objects['CameraLoc1'].transform.setScaling(.2, .2, .2)
 
+// scene1.objects['Sphere'] = new Sphere(glw, sphereLOD);
+// scene1.objects['Sphere'].transform.setTranslation(0, 6, -7);
+// scene1.objects['Sphere'].transform.setScaling(.2, .2, .2);
+const keys = ['Rubber', 'Silver', 'Ruby', 'Bronze'];
+let iX =-3.5;
+let iY =2.5;
+let iZ =-7;
+let sideLength = 7;
+for (let x = 0; x < sideLength; x++) {
+    for (let y = 0; y < sideLength; y++) {
+        for (let z = 0; z < sideLength; z++) {
 
-let sphereLOD = 4
-scene1.objects['CameraLoc'] = new Sphere(glw, sphereLOD);
-scene1.objects['CameraLoc'].transform.setTranslation(0, 5, -5.5);
-scene1.objects['CameraLoc'].transform.setScaling(.2, .2, .2)
-
-scene1.objects['Sphere'] = new Sphere(glw, sphereLOD);
-scene1.objects['Sphere'].transform.setTranslation(0, 6, -7);
-scene1.objects['Sphere'].transform.setScaling(.2, .2, .2);
-// scene1.objects['Sphere1'] = new Sphere(glw, sphereLOD);
-// scene1.objects['Sphere1'].transform.setTranslation(-3, 5, -10);
-// scene1.objects['Sphere1'].transform.setScaling(.6, .6, .6);
-// scene1.objects['Sphere2'] = new Sphere(glw, sphereLOD);
-// scene1.objects['Sphere2'].transform.setTranslation(0, 5, -10);
-// scene1.objects['Sphere2'].transform.setScaling(.8, .8, .8);
-// scene1.objects['Sphere3'] = new Sphere(glw, sphereLOD);
-// scene1.objects['Sphere3'].transform.setTranslation(3, 5, -10);
-// scene1.objects['Sphere3'].transform.setScaling(1, 1, 1);
-// scene1.objects['Sphere4'] = new Sphere(glw, sphereLOD);
-// scene1.objects['Sphere4'].transform.setTranslation(6, 5, -10);
-// scene1.objects['Sphere4'].transform.setScaling(1.2, 1.2, 1.2);
-
-scene1.objects['Cube'] = new Cube(glw);
-scene1.objects['Cube'].transform.setTranslation(-2, 6, -6);
-
-scene1.objects['Tetrahedron'] = new Tetrahedron(glw);
-scene1.objects['Tetrahedron'].transform.setTranslation(2, 6, -6);
-
-
-
-// let cameraPOS
-// scene1.objects['Show_Tetrahedron'] = new Tetrahedron(glw);
-// cameraPOS = cameraAngels[0].transform.getTranslation();
-// scene1.objects['Show_Tetrahedron'].transform.setTranslation(cameraPOS[0], cameraPOS[1] + 26, cameraPOS[2] - 25);
-
-// scene1.objects['Show_Cube'] = new Cube(glw);
-// cameraPOS = cameraAngels[1].transform.getTranslation();
-// scene1.objects['Show_Cube'].transform.setTranslation(cameraPOS[0], cameraPOS[1] + 26, cameraPOS[2] - 25);
-
-// scene1.objects['Show_Octahedron'] = new Octahedron(glw);
-// cameraPOS = cameraAngels[2].transform.getTranslation();
-// scene1.objects['Show_Octahedron'].transform.setTranslation(cameraPOS[0], cameraPOS[1] + 26, cameraPOS[2] - 25);
-
-// scene1.objects['Show_Dodecahedron'] = new Dodecahedron(glw);
-// cameraPOS = cameraAngels[3].transform.getTranslation();
-// scene1.objects['Show_Dodecahedron'].transform.setTranslation(cameraPOS[0], cameraPOS[1] + 26, cameraPOS[2] - 25);
-
-// scene1.objects['Show_Icosahedron'] = new Icosahedron(glw);
-// cameraPOS = cameraAngels[4].transform.getTranslation();
-// scene1.objects['Show_Icosahedron'].transform.setTranslation(cameraPOS[0], cameraPOS[1] + 26, cameraPOS[2] - 25);
-
-// scene1.objects['Show_Sp'] = new Sphere(glw , sphereLOD);
-// cameraPOS = cameraAngels[5].transform.getTranslation();
-// scene1.objects['Show_Sp'].transform.setTranslation(cameraPOS[0], cameraPOS[1] + 26, cameraPOS[2] - 25);
-
-
-
+            let sphereName = `Sphere${x}${y}${z}`;
+            scene1.objects[sphereName] = new Sphere(glw, sphereLOD);
+            scene1.objects[sphereName].transform.setTranslation(x + iX, y + iY, z +iZ);
+            scene1.objects[sphereName].transform.setScaling(.2, .2, .2);
+            scene1.objects[sphereName].material = MAT_LIB.get(keys[Math.floor(Math.random() * keys.length)]);
+            console.log(scene1.objects[sphereName].material)
+        }
+    
+    }
+    
+}
 
 
 let allowRotation = false;
@@ -183,15 +97,6 @@ scene1.actions['Sphere Dance'] = setInterval(() => {
     
 }, 1000/30);
 
-scene1.actions['Print'] = setInterval(() => {
-    Object.entries(scene1.objects).forEach(([key, value]) => {
-        if(key.includes('Cube')) {
-            //console.log(value.geometry.getNormals())
-        
-
-        }
-    });
-}, 1000/30);
 
 let moveLight = false
 let lightHeight = 0;
@@ -202,7 +107,7 @@ scene1.actions['LightMove'] = setInterval(() => {
         lightHeight += lightDelta;
         let translation = scene1.light.transform.getTranslation()
         scene1.light.transform.setTranslation(lightHeight, translation[1], translation[2]);
-        scene1.objects['CameraLoc'].transform.setTranslation(lightHeight, translation[1], translation[2]);
+        scene1.objects['CameraLoc1'].transform.setTranslation(lightHeight, translation[1], translation[2]);
         lightDelta *= (lightHeight > 4 || lightHeight < -4 ? -1 : 1);
         // console.log(translation);
 
@@ -211,21 +116,19 @@ scene1.actions['LightMove'] = setInterval(() => {
 }, 1000/30);
 
 
-
 let body = document.getElementById('body') as HTMLElement;
 body?.addEventListener('keydown', (evt: KeyboardEvent) => {
     
-    if(evt.key == 'w') { scene1.ToggleWire(); }
+    let delta = .2;
+    if(evt.key == 's') { let c = scene1.camera.transform.getTranslation(); scene1.camera.transform.setTranslation(c[0], c[1], c[2] += delta); }
+    if(evt.key == 'w') { let c = scene1.camera.transform.getTranslation(); scene1.camera.transform.setTranslation(c[0], c[1], c[2] -= delta); }
+    if(evt.key == 'd') { let c = scene1.camera.transform.getTranslation(); scene1.camera.transform.setTranslation(c[0] += delta, c[1], c[2]); }
+    if(evt.key == 'a') { let c = scene1.camera.transform.getTranslation(); scene1.camera.transform.setTranslation(c[0] -= delta, c[1], c[2]); }
+    if(evt.key == ' ') { let c = scene1.camera.transform.getTranslation(); scene1.camera.transform.setTranslation(c[0], c[1] += delta, c[2]); }
+    if(evt.key == 'c') { let c = scene1.camera.transform.getTranslation(); scene1.camera.transform.setTranslation(c[0], c[1] -= delta, c[2]); }
     if(evt.key == 'l') { moveLight = !moveLight; }
     if(evt.key == 'r') { allowRotation = !allowRotation; }
 
     if(evt.key == '1') { scene1.camera = cameraAngels[0]; }
     if(evt.key == '2') { scene1.camera = cameraAngels[1]; }
-    if(evt.key == '3') { scene1.camera = cameraAngels[2]; }
-    if(evt.key == '4') { scene1.camera = cameraAngels[3]; }
-    if(evt.key == '5') { scene1.camera = cameraAngels[4]; }
-    if(evt.key == '6') { scene1.camera = cameraAngels[5]; }
-    if(evt.key == '7') { scene1.camera = cameraAngels[6]; }
-    if(evt.key == '8') { scene1.camera = cameraAngels[7]; }
-    if(evt.key == '9') { scene1.camera = cameraAngels[8]; }
 });
