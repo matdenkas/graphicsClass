@@ -3,6 +3,7 @@ import { GL_Wrapper } from "./GLWrapper";
 import { Scene } from "./Scene";
 import { Plane, Cube, WireCube, Tetrahedron, Octahedron, Dodecahedron, Icosahedron, Sphere } from "./Primitives"
 import { Light } from "./Light"
+import { MAT_LIB } from "./Materials";
 
 const width = 800;
 const height = 800;
@@ -67,12 +68,12 @@ let scene1 = new Scene(cameraAngels[6], new Light);
 // scene1.objects['Ground'] = new Cube(glw);
 // scene1.objects['Ground'].transform.setTranslation(0, -1.5, 0);
 // scene1.objects['Ground'].transform.setScaling(1000, .2, 1000);
-// scene1.objects['Ground'].geometry.setColors(.85, .75, .55, 1);
-
+// scene1.objects['Ground'].material = MAT_LIB.get('Silver');
 // scene1.objects['Sky'] = new Cube(glw);
 // scene1.objects['Sky'].transform.setTranslation(0, 0, -200);
 // scene1.objects['Sky'].transform.setScaling(1000, 1000, .2);
-// scene1.objects['Sky'].geometry.setColors(.4, .8, .9, 1);
+// scene1.objects['Sky'].material = MAT_LIB.get('Silver');
+
 
 // scene1.objects['Tetrahedron'] = new Tetrahedron(glw);
 // scene1.objects['Tetrahedron'].transform.setTranslation(-6, 0, -10);
@@ -87,26 +88,39 @@ let scene1 = new Scene(cameraAngels[6], new Light);
 // scene1.objects['Dodecahedron'].transform.setTranslation(3, 0, -10);
 
 // scene1.objects['Icosahedron'] = new Icosahedron(glw);
-// scene1.objects['Icosahedron'].transform.setTranslation(6, 0, -10);
+// scene1.objects['Icosahedron'].transform.setTranslation(2, 4, -6);
 
-scene1.light.transform.setTranslation(0, 10, 0);
+scene1.light.transform.setTranslation(0, 5, -5.5);
 
-let sphereLOD = 6
+
+let sphereLOD = 4
+scene1.objects['CameraLoc'] = new Sphere(glw, sphereLOD);
+scene1.objects['CameraLoc'].transform.setTranslation(0, 5, -5.5);
+scene1.objects['CameraLoc'].transform.setScaling(.2, .2, .2)
+
 scene1.objects['Sphere'] = new Sphere(glw, sphereLOD);
-scene1.objects['Sphere'].transform.setTranslation(-6, 5, -10);
+scene1.objects['Sphere'].transform.setTranslation(0, 6, -7);
 scene1.objects['Sphere'].transform.setScaling(.2, .2, .2);
-scene1.objects['Sphere1'] = new Sphere(glw, sphereLOD);
-scene1.objects['Sphere1'].transform.setTranslation(-3, 5, -10);
-scene1.objects['Sphere1'].transform.setScaling(.6, .6, .6);
-scene1.objects['Sphere2'] = new Sphere(glw, sphereLOD);
-scene1.objects['Sphere2'].transform.setTranslation(0, 5, -10);
-scene1.objects['Sphere2'].transform.setScaling(.8, .8, .8);
-scene1.objects['Sphere3'] = new Sphere(glw, sphereLOD);
-scene1.objects['Sphere3'].transform.setTranslation(3, 5, -10);
-scene1.objects['Sphere3'].transform.setScaling(1, 1, 1);
-scene1.objects['Sphere4'] = new Sphere(glw, sphereLOD);
-scene1.objects['Sphere4'].transform.setTranslation(6, 5, -10);
-scene1.objects['Sphere4'].transform.setScaling(1.2, 1.2, 1.2);
+// scene1.objects['Sphere1'] = new Sphere(glw, sphereLOD);
+// scene1.objects['Sphere1'].transform.setTranslation(-3, 5, -10);
+// scene1.objects['Sphere1'].transform.setScaling(.6, .6, .6);
+// scene1.objects['Sphere2'] = new Sphere(glw, sphereLOD);
+// scene1.objects['Sphere2'].transform.setTranslation(0, 5, -10);
+// scene1.objects['Sphere2'].transform.setScaling(.8, .8, .8);
+// scene1.objects['Sphere3'] = new Sphere(glw, sphereLOD);
+// scene1.objects['Sphere3'].transform.setTranslation(3, 5, -10);
+// scene1.objects['Sphere3'].transform.setScaling(1, 1, 1);
+// scene1.objects['Sphere4'] = new Sphere(glw, sphereLOD);
+// scene1.objects['Sphere4'].transform.setTranslation(6, 5, -10);
+// scene1.objects['Sphere4'].transform.setScaling(1.2, 1.2, 1.2);
+
+scene1.objects['Cube'] = new Cube(glw);
+scene1.objects['Cube'].transform.setTranslation(-2, 6, -6);
+
+scene1.objects['Tetrahedron'] = new Tetrahedron(glw);
+scene1.objects['Tetrahedron'].transform.setTranslation(2, 6, -6);
+
+
 
 // let cameraPOS
 // scene1.objects['Show_Tetrahedron'] = new Tetrahedron(glw);
@@ -137,12 +151,15 @@ scene1.objects['Sphere4'].transform.setScaling(1.2, 1.2, 1.2);
 
 
 
-
+let allowRotation = false;
 let rotation = 0;
 scene1.actions['Standard rotations'] = setInterval(() => {
     Object.entries(scene1.objects).forEach(([key, value]) => {
         if(key != 'Sky' && key != 'Ground') {
-            value.transform.setRotation(30, rotation, rotation);
+            if(allowRotation) {
+                value.transform.setRotation(rotation, rotation, 0);
+            }
+            
         }
     });
     rotation = (rotation + 3)%360;
@@ -153,22 +170,54 @@ let sphereHeight = 5;
 let delta = .05;
 scene1.actions['Sphere Dance'] = setInterval(() => {
     Object.entries(scene1.objects).forEach(([key, value]) => {
-        if(key.includes('Sphere')) {
+        if(key.includes('afwafa')) {
 
             sphereHeight += delta;
             let translation = value.transform.getTranslation()
             value.transform.setTranslation(translation[0], sphereHeight, translation[2]);
+            delta *= (sphereHeight > 7 || sphereHeight < 5 ? -1 : 1);
+
+        }
+        
+    });
+    
+}, 1000/30);
+
+scene1.actions['Print'] = setInterval(() => {
+    Object.entries(scene1.objects).forEach(([key, value]) => {
+        if(key.includes('Cube')) {
+            //console.log(value.geometry.getNormals())
+        
 
         }
     });
-    delta *= (sphereHeight > 7 || sphereHeight < 5 ? -1 : 1);
 }, 1000/30);
+
+let moveLight = false
+let lightHeight = 0;
+let lightDelta = .1;
+scene1.actions['LightMove'] = setInterval(() => {
+
+    if(moveLight) {
+        lightHeight += lightDelta;
+        let translation = scene1.light.transform.getTranslation()
+        scene1.light.transform.setTranslation(lightHeight, translation[1], translation[2]);
+        scene1.objects['CameraLoc'].transform.setTranslation(lightHeight, translation[1], translation[2]);
+        lightDelta *= (lightHeight > 4 || lightHeight < -4 ? -1 : 1);
+        // console.log(translation);
+
+    }
+
+}, 1000/30);
+
 
 
 let body = document.getElementById('body') as HTMLElement;
 body?.addEventListener('keydown', (evt: KeyboardEvent) => {
     
     if(evt.key == 'w') { scene1.ToggleWire(); }
+    if(evt.key == 'l') { moveLight = !moveLight; }
+    if(evt.key == 'r') { allowRotation = !allowRotation; }
 
     if(evt.key == '1') { scene1.camera = cameraAngels[0]; }
     if(evt.key == '2') { scene1.camera = cameraAngels[1]; }

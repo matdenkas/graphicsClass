@@ -11,6 +11,11 @@ export class GL_Wrapper {
         this.context = canvas.getContext('webgl2') as WebGL2RenderingContext
         this.shaderProgramHelper = null;
         this.context.enable(this.context.DEPTH_TEST);
+
+        this.context.enable(this.context.CULL_FACE);
+        this.context.cullFace(this.context.BACK);
+        this.context.frontFace(this.context.CCW);
+
     }
 
     /**
@@ -135,6 +140,7 @@ export class GL_Wrapper {
         switch (vector.length) {
             case 3:
                 this.context.uniform3f(loc, vector[0], vector[1], vector[2]);
+                break;
             case 4:
                 this.context.uniform4f(loc, vector[0], vector[1], vector[2], vector[3]);
                 break;

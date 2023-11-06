@@ -34,7 +34,7 @@ export abstract class Object {
      * Draws the object to the loaded context.
      */
     public draw(camera: Camera, light: Light, isWire = false) {
-        let stamp = Date.now();
+         //let stamp = Date.now();
         
         if (this.geometry.bufferNeeded) {
             this.buffer();
@@ -57,11 +57,11 @@ export abstract class Object {
 
         this.GLW.draw(this.indicesBuffer!, this.geometry.getIndexes().length, isWire ? GL_Wrapper.drawModes.LINES : GL_Wrapper.drawModes.TRIANGLES);
         
-        console.log(`Draw obj: ${(Date.now() - stamp) / 1000}`)
+        // console.log(`Draw obj: ${(Date.now() - stamp) / 1000}`)
     }
 
     private buffer() {
-        console.log('Buffer needed')
+        // console.log('Buffer needed')
         this.GLW.deleteBuffer(this.verticesBuffer);
         this.GLW.deleteBuffer(this.colorBuffer);
         this.GLW.deleteBuffer(this.indicesBuffer);

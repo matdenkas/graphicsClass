@@ -13,17 +13,18 @@ export class Plane extends Object {
         super(glw);
         
 
-        this.geometry.setIndexes(new Uint16Array([0, 1, 2, 0, 2, 3, 0]));
+        this.geometry.setIndexes(new Uint16Array([0, 1, 2, 0, 2, 3]));
         this.geometry.setVertexes(new Float32Array([
             -.5,  .5, 0,
             -.5, -.5, 0,
              .5, -.5, 0,
              .5,  .5, 0,
         ]));
-        this.geometry.setColors(1, .7, .75, 1);
+        this.geometry.autoNorm();
+        this.material = MAT_LIB.get('Bronze');
 
-        this.programShader.attachShaderFromShaderLib(`v_O2W&color`, ShaderProgramHelper.shaderTypes.VERTEX);
-        this.programShader.attachShaderFromShaderLib(`f_SafeSingleTriWColor`, ShaderProgramHelper.shaderTypes.FRAGMENT);
+        this.programShader.attachShaderFromShaderLib(`vGouraudShading`, ShaderProgramHelper.shaderTypes.VERTEX);
+        this.programShader.attachShaderFromShaderLib(`fGouraudShading`, ShaderProgramHelper.shaderTypes.FRAGMENT);
         this.programShader.linkProgram();
     }
 }
@@ -40,10 +41,14 @@ export class Tetrahedron extends Object {
 
         this.geometry.setIndexes(new Uint16Array([
             //face 1
-            2, 3, 0,
-            2, 0, 1,
-            2, 1, 3,
-            3, 0, 1,
+            0, 2, 1,
+            0, 3, 2,
+            0, 1, 3,
+            1, 2, 3,
+            // 0,1,2,
+            // 0,2,3,
+            // 0,3,1,
+            // 2,1,3
         ]));
         this.geometry.setVertexes(new Float32Array([
             //0
@@ -54,11 +59,16 @@ export class Tetrahedron extends Object {
             -Math.sqrt((2/9)), -Math.sqrt((2/3)), -(1/3),
             //3
             0, 0, 1,
+            // 1.00, 1.00, 1.00,
+            // 2.00, 1.00, 1.00,
+            // 1.00, 2.00, 1.00,
+            // 1.00, 1.00, 2.00,
         ]));
-        this.geometry.setColors(1, .7, .75, 1);
+        this.geometry.autoNorm();
+        this.material = MAT_LIB.get('Ruby');
 
-        this.programShader.attachShaderFromShaderLib(`v_O2W&color`, ShaderProgramHelper.shaderTypes.VERTEX);
-        this.programShader.attachShaderFromShaderLib(`f_SafeSingleTriWColor`, ShaderProgramHelper.shaderTypes.FRAGMENT);
+        this.programShader.attachShaderFromShaderLib(`vGouraudShading`, ShaderProgramHelper.shaderTypes.VERTEX);
+        this.programShader.attachShaderFromShaderLib(`fGouraudShading`, ShaderProgramHelper.shaderTypes.FRAGMENT);
         this.programShader.linkProgram();
     }
 }
@@ -96,10 +106,11 @@ export class Cube extends Object {
              -.5, -.5,  .5,
               .5, -.5,  .5,
         ]));
-        this.geometry.setColors(1, .7, .75, 1);
+        this.geometry.autoNorm();
+        this.material = MAT_LIB.get('Bronze');
 
-        this.programShader.attachShaderFromShaderLib(`v_O2W&color`, ShaderProgramHelper.shaderTypes.VERTEX);
-        this.programShader.attachShaderFromShaderLib(`f_SafeSingleTriWColor`, ShaderProgramHelper.shaderTypes.FRAGMENT);
+        this.programShader.attachShaderFromShaderLib(`vGouraudShading`, ShaderProgramHelper.shaderTypes.VERTEX);
+        this.programShader.attachShaderFromShaderLib(`fGouraudShading`, ShaderProgramHelper.shaderTypes.FRAGMENT);
         this.programShader.linkProgram();
     }
 }
@@ -136,10 +147,11 @@ export class Octahedron extends Object {
             0, -1, 0, //4
             0, 0, -1 //5
         ]));
-        this.geometry.setColors(1, .7, .75, 1);
+        this.geometry.autoNorm();
+        this.material = MAT_LIB.get('Bronze');
 
-        this.programShader.attachShaderFromShaderLib(`v_O2W&color`, ShaderProgramHelper.shaderTypes.VERTEX);
-        this.programShader.attachShaderFromShaderLib(`f_SafeSingleTriWColor`, ShaderProgramHelper.shaderTypes.FRAGMENT);
+        this.programShader.attachShaderFromShaderLib(`vGouraudShading`, ShaderProgramHelper.shaderTypes.VERTEX);
+        this.programShader.attachShaderFromShaderLib(`fGouraudShading`, ShaderProgramHelper.shaderTypes.FRAGMENT);
         this.programShader.linkProgram();
     }
 }
@@ -217,10 +229,11 @@ export class Dodecahedron extends Object {
             0.57735 , -0.57735 , 0.57735,
             -0.57735 , -0.57735 , -0.57735,
         ]));
-        this.geometry.setColors(1, .7, .75, 1);
+        this.geometry.autoNorm();
+        this.material = MAT_LIB.get('Bronze');
 
-        this.programShader.attachShaderFromShaderLib(`v_O2W&color`, ShaderProgramHelper.shaderTypes.VERTEX);
-        this.programShader.attachShaderFromShaderLib(`f_SafeSingleTriWColor`, ShaderProgramHelper.shaderTypes.FRAGMENT);
+        this.programShader.attachShaderFromShaderLib(`vGouraudShading`, ShaderProgramHelper.shaderTypes.VERTEX);
+        this.programShader.attachShaderFromShaderLib(`fGouraudShading`, ShaderProgramHelper.shaderTypes.FRAGMENT);
         this.programShader.linkProgram();
     }
 }
@@ -267,10 +280,11 @@ export class Icosahedron extends Object {
             0 , 0.525731 , -0.850651,
             0 , 0.525731 , 0.850651,
         ]));
-        this.geometry.setColors(1, .7, .75, 1);
+        this.geometry.autoNorm();
+        this.material = MAT_LIB.get('Bronze');
 
-        this.programShader.attachShaderFromShaderLib(`v_O2W&color`, ShaderProgramHelper.shaderTypes.VERTEX);
-        this.programShader.attachShaderFromShaderLib(`f_SafeSingleTriWColor`, ShaderProgramHelper.shaderTypes.FRAGMENT);
+        this.programShader.attachShaderFromShaderLib(`vGouraudShading`, ShaderProgramHelper.shaderTypes.VERTEX);
+        this.programShader.attachShaderFromShaderLib(`fGouraudShading`, ShaderProgramHelper.shaderTypes.FRAGMENT);
         this.programShader.linkProgram();
     }
 }
@@ -296,6 +310,7 @@ export class Sphere extends Object {
         this.programShader.attachShaderFromShaderLib(`vGouraudShading`, ShaderProgramHelper.shaderTypes.VERTEX);
         this.programShader.attachShaderFromShaderLib(`fGouraudShading`, ShaderProgramHelper.shaderTypes.FRAGMENT);
         this.programShader.linkProgram();
+        
     }
 
     private CreateSphere(glw: GL_Wrapper, level: number) {
@@ -403,11 +418,12 @@ export class WireCube extends Object {
              -.5, -.5,  .5,
               .5, -.5,  .5,
         ]));
-        this.geometry.setColors(1, .7, .75, 1);
+        this.geometry.autoNorm();
+        this.material = MAT_LIB.get('Bronze');
 
 
-        this.programShader.attachShaderFromShaderLib(`v_O2W&color`, ShaderProgramHelper.shaderTypes.VERTEX);
-        this.programShader.attachShaderFromShaderLib(`f_SafeSingleTriWColor`, ShaderProgramHelper.shaderTypes.FRAGMENT);
+        this.programShader.attachShaderFromShaderLib(`vGouraudShading`, ShaderProgramHelper.shaderTypes.VERTEX);
+        this.programShader.attachShaderFromShaderLib(`fGouraudShading`, ShaderProgramHelper.shaderTypes.FRAGMENT);
     }
 }
 
