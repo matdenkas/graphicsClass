@@ -26,42 +26,67 @@ let SHADER_LIB = new Map<string, string>([
     ["vGouraudShading", 
     `#version 300 es
        
-        in vec3 vertex_position;
-        in vec3 vertex_normal;
+    in vec3 vertex_position;
+    in vec3 vertex_normal;
+    
+    uniform mat4 objectToWorld;
+    uniform mat4 worldToCamera;
+    uniform mat4 cameraToProjection;
+
+    in vec3 cameraPos;
+
+    uniform vec3 lightPos1;
+    uniform vec3 lightPos2;
+    uniform vec3 lightPos3;
+
+    out vec3 N;
+
+    out vec3 L1;
+    out vec3 L2;
+    out vec3 L3;
+
+    out vec3 E;
+
+    out vec3 H1;
+    out vec3 H2;
+    out vec3 H3;
+    
+    void main() {
+        vec4 worldPosition = objectToWorld * vec4(vertex_position, 1);
+
+        N = normalize(transpose(inverse(mat3(objectToWorld))) * vertex_normal);
         
-        uniform mat4 objectToWorld;
-        uniform mat4 worldToCamera;
-        uniform mat4 cameraToProjection;
-
-        in vec3 cameraPos;
-
-        uniform vec3 lightPos;
-
-        out vec3 N;
-        out vec3 L;
-        out vec3 E;
-        out vec3 H;
+        L1 = normalize(lightPos1 - worldPosition.xyz);
+        L2 = normalize(lightPos2 - worldPosition.xyz);
+        L3 = normalize(lightPos3 - worldPosition.xyz);
         
-        void main() {
-            vec4 worldPosition = objectToWorld * vec4(vertex_position, 1);
-
-            N = normalize(transpose(inverse(mat3(objectToWorld))) * vertex_normal);
-            L = normalize(lightPos - worldPosition.xyz);
-            E = normalize(cameraPos -worldPosition.xyz);
-            H = normalize(L+E);
-            
-            gl_Position = cameraToProjection * worldToCamera * worldPosition;
-        }
+        E = normalize(cameraPos -worldPosition.xyz);
+        
+        H1 = normalize(L1+E);
+        H2 = normalize(L2+E);
+        H3 = normalize(L3+E);
+        
+        gl_Position = cameraToProjection * worldToCamera * worldPosition;
+    }
     `],
     ["fGouraudShading", 
         `#version 300 es
         precision highp float;       
         in vec3 N;
-        in vec3 L;
-        in vec3 E;
-        in vec3 H;
 
-        uniform vec3 lightColor;
+        in vec3 L1;
+        in vec3 L2;
+        in vec3 L3;
+
+        in vec3 E;
+
+        in vec3 H1;
+        in vec3 H2;
+        in vec3 H3;
+
+        uniform vec3 lightColor1;
+        uniform vec3 lightColor2;
+        uniform vec3 lightColor3;
 
         uniform vec3 ambientLight;
         uniform vec3 matDiffuse;
@@ -72,11 +97,23 @@ let SHADER_LIB = new Map<string, string>([
 
         void main() {
 
-            float kd = max(dot(L,N), 0.0);
-            float ks = pow(max(dot(N,H), 0.0), shininess);
+            float kd1 = max(dot(L1,N), 0.0);
+            float ks1 = pow(max(dot(N,H1), 0.0), shininess);
+            float kd2 = max(dot(L2,N), 0.0);
+            float ks2 = pow(max(dot(N,H2), 0.0), shininess);
+            float kd3 = max(dot(L3,N), 0.0);
+            float ks3 = pow(max(dot(N,H3), 0.0), shininess);
 
-            if (dot(L,N) < 0.0) ks = 0.0; 
-            frag_color = vec4(matDiffuse * ambientLight + kd * matDiffuse *  lightColor + ks * matSpecular * lightColor, 1);;
+            if (dot(L1,N) < 0.0) ks1 = 0.0; 
+            frag_color += vec4(matDiffuse * ambientLight + kd1 * matDiffuse *  lightColor1 + ks1 * matSpecular * lightColor1, 1);
+
+            if (dot(L2,N) < 0.0) ks2 = 0.0; 
+            frag_color += vec4(matDiffuse * ambientLight + kd2 * matDiffuse *  lightColor2 + ks2 * matSpecular * lightColor2, 1);
+
+            if (dot(L3,N) < 0.0) ks3 = 0.0; 
+            frag_color += vec4(matDiffuse * ambientLight + kd3 * matDiffuse *  lightColor3 + ks3 * matSpecular * lightColor3, 1);
+
+            frag_color = normalize(frag_color);
         }
     `],
 ]);

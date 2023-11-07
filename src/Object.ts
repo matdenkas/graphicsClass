@@ -33,7 +33,7 @@ export abstract class Object {
      * draw()
      * Draws the object to the loaded context.
      */
-    public draw(camera: Camera, light: Light, isWire = false) {
+    public draw(camera: Camera, light1: Light, light2: Light, light3: Light, isWire = false) {
          //let stamp = Date.now();
         
         if (this.geometry.bufferNeeded) {
@@ -53,7 +53,9 @@ export abstract class Object {
 
         this.GLW.bindVectorUniform(camera.transform.getTranslation(), 'cameraPos');
 
-        light.assignUniforms(this.GLW);
+        light1.assignUniforms(this.GLW, '1');
+        light2.assignUniforms(this.GLW, '2');
+        light3.assignUniforms(this.GLW, '3');
         
         this.material.assignMatUniform(this.GLW);
 

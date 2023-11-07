@@ -33,12 +33,22 @@ cameraAngels[1].transform.setRotation(0, 0, 0);
 cameraAngels.push(new Camera());
 
 
-let scene1 = new Scene(cameraAngels[0], new Light);
-scene1.light.transform.setTranslation(0, 5, -5.5);
+let scene1 = new Scene(cameraAngels[0], new Light, new Light, new Light);
+scene1.light1.transform.setTranslation(0, 5, -5.5);
+scene1.light2.transform.setTranslation(0, 0, -5.5);
+scene1.light3.transform.setTranslation(0, 5, 0);
 let sphereLOD = 6;
 scene1.objects['CameraLoc1'] = new Sphere(glw, sphereLOD);
 scene1.objects['CameraLoc1'].transform.setTranslation(0, 5, -5.5);
 scene1.objects['CameraLoc1'].transform.setScaling(.2, .2, .2)
+
+scene1.objects['CameraLoc2'] = new Sphere(glw, sphereLOD);
+scene1.objects['CameraLoc2'].transform.setTranslation(0, 5, -5.5);
+scene1.objects['CameraLoc2'].transform.setScaling(.2, .2, .2)
+
+scene1.objects['CameraLoc3'] = new Sphere(glw, sphereLOD);
+scene1.objects['CameraLoc3'].transform.setTranslation(0, 5, -5.5);
+scene1.objects['CameraLoc3'].transform.setScaling(.2, .2, .2)
 
 // scene1.objects['Sphere'] = new Sphere(glw, sphereLOD);
 // scene1.objects['Sphere'].transform.setTranslation(0, 6, -7);
@@ -57,7 +67,7 @@ for (let x = 0; x < sideLength; x++) {
             scene1.objects[sphereName].transform.setTranslation(x + iX, y + iY, z +iZ);
             scene1.objects[sphereName].transform.setScaling(.2, .2, .2);
             scene1.objects[sphereName].material = MAT_LIB.get(keys[Math.floor(Math.random() * keys.length)]);
-            console.log(scene1.objects[sphereName].material)
+            // console.log(scene1.objects[sphereName].material)
         }
     
     }
@@ -99,21 +109,55 @@ scene1.actions['Sphere Dance'] = setInterval(() => {
 
 
 let moveLight = false
-let lightHeight = 0;
-let lightDelta = .1;
-scene1.actions['LightMove'] = setInterval(() => {
+let lightHeight1 = 0;
+let lightDelta1 = .1;
+scene1.actions['LightMove1'] = setInterval(() => {
 
     if(moveLight) {
-        lightHeight += lightDelta;
-        let translation = scene1.light.transform.getTranslation()
-        scene1.light.transform.setTranslation(lightHeight, translation[1], translation[2]);
-        scene1.objects['CameraLoc1'].transform.setTranslation(lightHeight, translation[1], translation[2]);
-        lightDelta *= (lightHeight > 4 || lightHeight < -4 ? -1 : 1);
-        // console.log(translation);
+        lightHeight1 += lightDelta1;
+        let translation = scene1.light1.transform.getTranslation()
+        scene1.light1.transform.setTranslation(lightHeight1, translation[1], translation[2]);
+        scene1.objects['CameraLoc1'].transform.setTranslation(lightHeight1, translation[1], translation[2]);
+        lightDelta1 *= (lightHeight1 > 4 || lightHeight1 < -4 ? -1 : 1);
+        //console.log(translation);
 
     }
 
 }, 1000/30);
+
+let lightHeight2 = 0;
+let lightDelta2 = .1;
+scene1.actions['LightMove2'] = setInterval(() => {
+
+    if(moveLight) {
+        lightHeight2 += lightDelta2;
+        let translation = scene1.light2.transform.getTranslation()
+        scene1.light2.transform.setTranslation(translation[0], lightHeight2, translation[2]);
+        scene1.objects['CameraLoc2'].transform.setTranslation(translation[0], lightHeight2, translation[2]);
+        lightDelta2 *= (lightHeight2 > 4 || lightHeight2 < -4 ? -1 : 1);
+        //console.log(translation);
+
+    }
+
+}, 1000/30);
+
+
+let lightHeight3 = 0;
+let lightDelta3 = .1;
+scene1.actions['LightMove3'] = setInterval(() => {
+
+    if(moveLight) {
+        lightHeight3 += lightDelta3;
+        let translation = scene1.light3.transform.getTranslation()
+        scene1.light3.transform.setTranslation(translation[0], translation[1], lightHeight3);
+        scene1.objects['CameraLoc3'].transform.setTranslation(translation[0], translation[1], lightHeight3);
+        lightDelta3 *= (lightHeight3 > 4 || lightHeight3 < -4 ? -1 : 1);
+        //console.log(translation);
+
+    }
+
+}, 1000/30);
+
 
 
 let body = document.getElementById('body') as HTMLElement;

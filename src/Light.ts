@@ -10,8 +10,8 @@ export class Light {
         this.color = [1, 1, 1];
     }
 
-    public assignUniforms(GLW: GL_Wrapper) {
-        GLW.bindVectorUniform(this.transform.getTranslation(), 'lightPos');
-        GLW.bindVectorUniform(this.color, 'lightColor')
+    public assignUniforms(GLW: GL_Wrapper, id: string) {
+        GLW.bindVectorUniform(this.transform.getTranslation(), `lightPos${id}`);
+        GLW.bindVectorUniform(this.color, `lightColor${id}`);
     }
 }
